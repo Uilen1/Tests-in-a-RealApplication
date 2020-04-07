@@ -2,6 +2,12 @@ package model.map;
 
 public class mapComponentes {
 
+	public String loginButton = "//button[text()='Entrar']";	
+	
+	
+	public static String elementButton(String name) {
+		return "//button[text()='"+name+"']";
+	}
 	public static String elementInput(String nameInput) {
 		return "//input[@id='"+nameInput+"']";
 	}
@@ -10,16 +16,20 @@ public class mapComponentes {
 		return "//"+tagName+"[@id='"+elementId+"']";
 	}
 	
+	public static String elementLink(String name) {
+		return "//a[text()='"+name+"']";
+	}
+	
 	public static String elementSelected(String idSelect) {
 		return "//select[@id='"+idSelect+"']";
 	}
 	
-	public static String elementTable() {
-		return "//table[@id='elementosForm:tableUsuarios']";
+	public static String elementTable(String nameTable) {
+		return "//table[@id='"+nameTable+"']";
 	}
 	
-	public static String inputTable(int idColumnButton, int idRow) {
-		return "//table[@id='elementosForm:tableUsuarios']/tbody/tr["+idRow+"]/td["+idColumnButton+"]//input";
+	public static String inputTable(int idColumnButton, int idRow, String idTable) {
+		return "//table[@id='"+idTable+"']/tbody/tr["+idRow+"]/td["+idColumnButton+"]";
 	}
 	
 	

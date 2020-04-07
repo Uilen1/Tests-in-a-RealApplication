@@ -7,7 +7,6 @@ import static model.core.Properties.DISABLE_ELEMENT_HIGHLIGHTS;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -19,9 +18,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebElement;
-
-import com.sun.jna.platform.win32.GDI32;
-import com.sun.jna.platform.win32.WinDef;
 
 import model.core.BaseTest;
 import model.core.Properties;
@@ -45,31 +41,8 @@ public class GetScreenShoot extends BaseTest {
 			
 			} catch (Exception e) {
 
-				System.out.println("Error in afterTest: " + e.getMessage());
+				System.out.println("Error in get evidence: " + e.getMessage());
 			}
-	}
-
-	protected static String getLocatorFromWebElement(WebElement element) {
-		String[] content = element.toString().split("->")[1].replaceFirst("(?s)(.*)\\]", "$1" + "").trim().split(": ");
-		return content[0];
-	}
-
-	protected static String getValueFromWebElement(WebElement element) {
-		String[] content = element.toString().split("->")[1].replaceFirst("(?s)(.*)\\]", "$1" + "").trim().split(": ");
-		return content[1];
-	}
-
-	protected static double getScreenScale() {
-		WinDef.HDC hdc = GDI32.INSTANCE.CreateCompatibleDC(null);
-		if (hdc != null) {
-			float actual = GDI32.INSTANCE.GetDeviceCaps(hdc, 10 /* VERTRES */);
-			float logical = GDI32.INSTANCE.GetDeviceCaps(hdc, 117 /* DESKTOPVERTRES */);
-			GDI32.INSTANCE.DeleteDC(hdc);
-			if (logical != 0 && logical / actual >= 1) {
-				return logical / actual;
-			}
-		}
-		return (Toolkit.getDefaultToolkit().getScreenResolution() / 96.0f);
 	}
 
 	protected static void higthlight(String name, WebElement... elements) {

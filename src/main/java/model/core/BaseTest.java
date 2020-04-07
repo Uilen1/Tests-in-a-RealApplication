@@ -1,9 +1,11 @@
 package model.core;
 
+import static model.core.DriverFactory.driver;
 import static model.core.DriverFactory.getDriver;
 import static model.core.DriverFactory.killDriver;
 import static model.core.Properties.CLOSE_BROWNSER;
 
+import java.awt.Toolkit;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -12,8 +14,14 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.rules.TestName;
+import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
+
+import com.sun.jna.platform.win32.GDI32;
+import com.sun.jna.platform.win32.WinDef;
+
+import model.pages.Login;
 
 public class BaseTest {
 
@@ -23,6 +31,7 @@ public class BaseTest {
 	protected static String executionTestName;
 	protected static String evidencePath;
 	protected static int evidenceCount;
+	private Login login;
 	
 	public BaseTest() {
 		
@@ -43,10 +52,12 @@ public class BaseTest {
 	
 	@Before
 	public void before() {
+		System.setProperty("webdriver.chrome.driver",System.getProperty("user.dir") + "//driver//chromedriver.exe");
 		getTimeStamps();
 		evidencePath = System.getProperty("user.dir")+"/outPut/"+sdf.format(timeStamps);
+		this.login = new Login();
+		login.setLogin();
 		
-
 	}
 	
 	@After
@@ -68,9 +79,57 @@ public class BaseTest {
 		getDriver().navigate().refresh();
 	}
 	
-	public static Object executarJavascript(String cmd, Object... params) {
+	protected static Object executarJavascript(String cmd, Object... params) {
 		JavascriptExecutor js = (JavascriptExecutor) getDriver();
 		return js.executeScript(cmd, params);
+	}
+	
+	protected static Boolean isPresent(WebElement element) {
+		
+	switch (getLocatorFromWebElement(element)) {
+	case "id":
+		return driver.findElements(By.id(getValueFromWebElement(element))).size() > 0;
+	case "className":
+		return driver.findElements(By.className(getValueFromWebElement(element))).size() > 0;
+	case "tagName":
+		return driver.findElements(By.tagName(getValueFromWebElement(element))).size() > 0;
+	case "xpath":
+		return driver.findElements(By.xpath(getValueFromWebElement(element))).size() > 0;
+	case "cssSelector":
+		return driver.findElements(By.cssSelector(getValueFromWebElement(element))).size() > 0;
+	case "linkText":
+		return driver.findElements(By.linkText(getValueFromWebElement(element))).size() > 0;
+	case "name":
+		return driver.findElements(By.name(getValueFromWebElement(element))).size() > 0;
+	case "partialLinkText":
+		return driver.findElements(By.partialLinkText(getValueFromWebElement(element))).size() > 0;
+	default:
+		throw new IllegalStateException("locator : " + getLocatorFromWebElement(element) + " not found!!!");
+	}
+		
+	}
+	
+	protected static String getLocatorFromWebElement(WebElement element) {
+		String[] content = element.toString().split("->")[1].replaceFirst("(?s)(.*)\\]", "$1" + "").trim().split(": ");
+		return content[0];
+	}
+
+	protected static String getValueFromWebElement(WebElement element) {
+		String[] content = element.toString().split("->")[1].replaceFirst("(?s)(.*)\\]", "$1" + "").trim().split(": ");
+		return content[1];
+	}
+
+	protected static double getScreenScale() {
+		WinDef.HDC hdc = GDI32.INSTANCE.CreateCompatibleDC(null);
+		if (hdc != null) {
+			float actual = GDI32.INSTANCE.GetDeviceCaps(hdc, 10 /* VERTRES */);
+			float logical = GDI32.INSTANCE.GetDeviceCaps(hdc, 117 /* DESKTOPVERTRES */);
+			GDI32.INSTANCE.DeleteDC(hdc);
+			if (logical != 0 && logical / actual >= 1) {
+				return logical / actual;
+			}
+		}
+		return (Toolkit.getDefaultToolkit().getScreenResolution() / 96.0f);
 	}
 	
 

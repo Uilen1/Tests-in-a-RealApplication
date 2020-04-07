@@ -17,6 +17,8 @@ public class Utils {
 	
 	public GetScreenShoot getScreenShoot = new GetScreenShoot();
 	
+	/************ Click ************/
+	
 	public void click(String elementToBeClickable) {
 		getDriver().findElement(By.xpath(mapComponentes.elementInput(elementToBeClickable))).click();
 	}
@@ -26,6 +28,28 @@ public class Utils {
 		GetScreenShoot.getEvidenceElement(nameStep, getDriver().findElement(By.xpath(mapComponentes.elementInput(elementToBeClickable))));
 
 	}
+	
+	public void clickButton(String elementToBeClickable, String nameStep) {
+		GetScreenShoot.getEvidenceElement(nameStep, getDriver().findElement(By.xpath(mapComponentes.elementButton(elementToBeClickable))));
+		getDriver().findElement(By.xpath(mapComponentes.elementButton(elementToBeClickable))).click();
+
+	}
+	
+	public void clickByXpath(String xpath) {
+		getDriver().findElement(By.xpath(xpath));
+	}
+	
+	public void clickByXpath(String xpath,String nameStep) {
+		GetScreenShoot.getEvidenceElement(nameStep, getDriver().findElement(By.xpath(xpath)));
+		getDriver().findElement(By.xpath(xpath)).click();
+	}
+	
+	public void clickLink(String name, String nameStep) {
+		GetScreenShoot.getEvidenceElement(nameStep,getDriver().findElement(By.xpath(mapComponentes.elementLink(name))));
+		getDriver().findElement(By.xpath(mapComponentes.elementLink(name))).click();
+	}
+	
+	/************ Write ************/
 	
 	public void write(String element, String text,String nameStep) {
 		getDriver().findElement(By.xpath(mapComponentes.elementInput(element))).sendKeys(text);
@@ -38,6 +62,8 @@ public class Utils {
 		GetScreenShoot.getEvidenceElement(nameStep, getDriver().findElement(By.xpath(mapComponentes.elementInput(element, tagName))));
 
 	}
+	
+	/************ Obtained_Texts ************/
 
 	public Object obtainedText(String element) {
 		return getDriver().findElement(By.xpath(mapComponentes.elementInput(element))).getAttribute("value");
@@ -46,6 +72,8 @@ public class Utils {
 	public Object obtainedText(String tagName,String element) {
 		return getDriver().findElement(By.xpath(mapComponentes.elementInput(element, tagName))).getAttribute("value") ;
 	}
+	
+	/************ Element_Radio ************/
 
 	public boolean elementRadioIsSelected(String element) {
 		return getDriver().findElement(By.xpath(mapComponentes.elementInput(element))).isSelected();
@@ -57,8 +85,7 @@ public class Utils {
 		combo.selectByVisibleText(item);
 		GetScreenShoot.getEvidenceElement(nameStep, elementWeb);
 
-	}
-	
+	}	
 	
 	public boolean obtainedItemCombo(String item, String element) {
 		WebElement elementWeb = getDriver().findElement(By.xpath(mapComponentes.elementSelected(element)));
@@ -76,10 +103,13 @@ public class Utils {
 		return finded; 
 	}
 	
+	/************ FRAME ************/
 	public void goFrame(String frame) {
 		getDriver().switchTo().frame(frame);
 	}
 	
+	
+	/************ Alert ************/
 	public String getAlertTextAndClick() {
 		Alert alert = getDriver().switchTo().alert();
 		String msg = alert.getText();
@@ -87,10 +117,16 @@ public class Utils {
 		return msg;
 	}
 	
-	public int getColumn(String register) {
+	/************ Tables ************/
+	
+	public WebElement getTable(String idTable) {
+			return getDriver().findElement(By.xpath(mapComponentes.elementTable(idTable)));
+
+	}
+	
+	public int getColumn(String register,String idTable) {
 		int cont = -1;
-		WebElement table = getDriver().findElement(By.xpath(mapComponentes.elementTable()));
-		List<WebElement> column = table.findElements(By.xpath(".//th"));
+		List<WebElement> column = getTable(idTable).findElements(By.xpath(".//th"));
 		for(int i = 0; i < column.size(); i++ ) {
 			if(column.get(i).getText().equals(register)) {
 				cont = i + 1;
@@ -100,10 +136,10 @@ public class Utils {
 		return cont;
 	}
 	
-	public int getRow(String register, int idColumn) {
+	public int getRow(String register, int idColumn,String idTable) {
 		int cont = -1;
-		WebElement table = getDriver().findElement(By.xpath(mapComponentes.elementTable()));
-		List<WebElement> row = table.findElements(By.xpath("./tbody/tr/td["+idColumn+"]"));
+		getTable(idTable);
+		List<WebElement> row = getTable(idTable).findElements(By.xpath("./tbody/tr/td["+idColumn+"]"));
 		for(int i = 0; i < row.size(); i++ ) {
 			if(row.get(i).getText().equals(register)) {
 				cont = i + 1;
@@ -113,8 +149,21 @@ public class Utils {
 		return cont;
 	}
 	
-	public void clickInputTable(int idColumnButton, int idRow, String nameStep) {
-		WebElement tableButton = getDriver().findElement(By.xpath(mapComponentes.inputTable(idColumnButton, idRow)));
+	public WebElement ElementTable(String register,String nameAccount, String idTable,String nameStep) {
+		int idColumn = getColumn(register, idTable);
+		int idRow = getRow(nameAccount, idColumn, idTable);
+		return getDriver().findElement(By.xpath(mapComponentes.inputTable(idColumn, idRow, idTable)));		
+	}
+	
+	public void clickElementTable(String register,String nameAccount, String idTable, String nameStep ) {
+		WebElement tableButton = ElementTable(register, nameAccount, idTable, nameStep).
+				findElement(By.xpath("/.//*[@class='glyphicon glyphicon-edit']"));
+		GetScreenShoot.getEvidenceElement(nameStep, tableButton);
+		tableButton.click();
+	}
+	
+	public void clickInputTable(int idColumnButton, int idRow, String nameStep,String idTable) {
+		WebElement tableButton = getDriver().findElement(By.xpath(mapComponentes.inputTable(idColumnButton, idRow, idTable)));
 		tableButton.click();
 		GetScreenShoot.getEvidenceElement(nameStep, tableButton);
 
