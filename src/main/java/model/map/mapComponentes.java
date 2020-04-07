@@ -2,7 +2,8 @@ package model.map;
 
 public class mapComponentes {
 
-	public String loginButton = "//button[text()='Entrar']";	
+	public String loginButton = "//button[text()='Entrar']";
+	public String elementTableClick = ".//span[@class='glyphicon glyphicon-edit']";
 	
 	
 	public static String elementButton(String name) {

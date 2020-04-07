@@ -15,6 +15,7 @@ import model.map.mapComponentes;
 
 public class Utils {
 	
+	private mapComponentes mapComponents = new mapComponentes();
 	public GetScreenShoot getScreenShoot = new GetScreenShoot();
 	
 	/************ Click ************/
@@ -149,16 +150,17 @@ public class Utils {
 		return cont;
 	}
 	
-	public WebElement ElementTable(String register,String nameAccount, String idTable,String nameStep) {
+	public WebElement ElementTable(String register,String nameAccount, String idTable,String nameColumnAction,String nameStep) {
 		int idColumn = getColumn(register, idTable);
 		int idRow = getRow(nameAccount, idColumn, idTable);
-		return getDriver().findElement(By.xpath(mapComponentes.inputTable(idColumn, idRow, idTable)));		
+		int idColumnButton = getColumn(nameColumnAction, idTable);
+		return getDriver().findElement(By.xpath(mapComponentes.inputTable(idColumnButton, idRow, idTable)));		
 	}
 	
-	public void clickElementTable(String register,String nameAccount, String idTable, String nameStep ) {
-		WebElement tableButton = ElementTable(register, nameAccount, idTable, nameStep).
-				findElement(By.xpath("/.//*[@class='glyphicon glyphicon-edit']"));
-		GetScreenShoot.getEvidenceElement(nameStep, tableButton);
+	public void clickElementTable(String register,String nameAccount, String idTable,String nameColumnAction, String nameStep ) {
+		WebElement elementButton = ElementTable(register, nameAccount, idTable,nameColumnAction, nameStep);
+		WebElement tableButton = elementButton.findElement(By.xpath(mapComponents.elementTableClick));
+		GetScreenShoot.getEvidenceElement(nameStep, elementButton);
 		tableButton.click();
 	}
 	

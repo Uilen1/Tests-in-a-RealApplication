@@ -75,7 +75,7 @@ public class BaseTest {
 		executarJavascript("arguments[0].scrollIntoViewIfNeeded({behavior: 'instant', block: 'center',inline: 'center'})", element);
 	}
 	
-	protected static void refresh() {
+	public static void refresh() {
 		getDriver().navigate().refresh();
 	}
 	
@@ -84,7 +84,7 @@ public class BaseTest {
 		return js.executeScript(cmd, params);
 	}
 	
-	protected static Boolean isPresent(WebElement element) {
+	public static Boolean isPresent(WebElement element) {
 		
 	switch (getLocatorFromWebElement(element)) {
 	case "id":
@@ -109,17 +109,17 @@ public class BaseTest {
 		
 	}
 	
-	protected static String getLocatorFromWebElement(WebElement element) {
+	public static String getLocatorFromWebElement(WebElement element) {
 		String[] content = element.toString().split("->")[1].replaceFirst("(?s)(.*)\\]", "$1" + "").trim().split(": ");
 		return content[0];
 	}
 
-	protected static String getValueFromWebElement(WebElement element) {
+	public static String getValueFromWebElement(WebElement element) {
 		String[] content = element.toString().split("->")[1].replaceFirst("(?s)(.*)\\]", "$1" + "").trim().split(": ");
 		return content[1];
 	}
 
-	protected static double getScreenScale() {
+	public static double getScreenScale() {
 		WinDef.HDC hdc = GDI32.INSTANCE.CreateCompatibleDC(null);
 		if (hdc != null) {
 			float actual = GDI32.INSTANCE.GetDeviceCaps(hdc, 10 /* VERTRES */);

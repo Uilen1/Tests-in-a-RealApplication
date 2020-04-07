@@ -8,7 +8,7 @@ public class UpdateAccount extends BasePage{
 	
 	public void updateAccount(String account) {
 		menuPage.listAccounts();
-		utils.clickElementTable("Conta", "Uilen Helei", "tabelaContas", "clickUpdate");
+		utils.clickElementTable("Conta", "Uilen Helei", "tabelaContas","Ações", "clickUpdate");
 		utils.click("nome", "clickInputAccount");
 		utils.write("nome", account, "writeAccount");
 		utils.clickButton("Salvar", "save");	

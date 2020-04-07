@@ -14,7 +14,7 @@ public class Scenarios extends BaseTest{
 	
 	@Test
 	public void Test() {
-		//insertAccount.insertAccount("Uilen Helei");
+		insertAccount.insertAccount("Uilen Helei");
 		updateAccount.updateAccount("Lelles Moreira");
 		
 	}
