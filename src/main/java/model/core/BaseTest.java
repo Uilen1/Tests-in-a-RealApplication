@@ -21,7 +21,7 @@ import org.openqa.selenium.WebElement;
 import com.sun.jna.platform.win32.GDI32;
 import com.sun.jna.platform.win32.WinDef;
 
-import model.pages.Login;
+import model.pages.LoginPage;
 
 public class BaseTest {
 
@@ -31,7 +31,7 @@ public class BaseTest {
 	protected static String executionTestName;
 	protected static String evidencePath;
 	protected static int evidenceCount;
-	private Login login;
+	private LoginPage login;
 	
 	public BaseTest() {
 		
@@ -55,7 +55,7 @@ public class BaseTest {
 		System.setProperty("webdriver.chrome.driver",System.getProperty("user.dir") + "//driver//chromedriver.exe");
 		getTimeStamps();
 		evidencePath = System.getProperty("user.dir")+"/outPut/"+sdf.format(timeStamps);
-		this.login = new Login();
+		this.login = new LoginPage();
 		login.setLogin();
 		
 	}

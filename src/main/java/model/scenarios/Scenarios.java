@@ -3,15 +3,17 @@ package model.scenarios;
 import org.junit.Test;
 
 import model.core.BaseTest;
-import model.pages.InsertAccount;
-import model.pages.Movement;
-import model.pages.UpdateAccount;
+import model.pages.InsertAccountPage;
+import model.pages.MovementPage;
+import model.pages.ResumePage;
+import model.pages.UpdateAccountPage;
 
 public class Scenarios extends BaseTest{
 	
-	private InsertAccount insertAccount = new InsertAccount();
-	private UpdateAccount updateAccount = new UpdateAccount();
-	private Movement movement = new Movement();
+	private InsertAccountPage insertAccount = new InsertAccountPage();
+	private UpdateAccountPage updateAccount = new UpdateAccountPage();
+	private MovementPage movement = new MovementPage();
+	private ResumePage resumePage = new ResumePage();
 	
 	
 	@Test
@@ -20,6 +22,7 @@ public class Scenarios extends BaseTest{
 		insertAccount.checkExceptions("Uilen Helei");
 		updateAccount.updateAccount("Lelles Moreira");
 		movement.toCreateMovement("uilen");
+		resumePage.deleteMovementAccount();
 		
 		
 	}

@@ -12,6 +12,7 @@ public class mapComponentes {
 	public static String elementButton(String name) {
 		return "//button[text()='"+name+"']";
 	}
+	
 	public static String elementInput(String nameInput) {
 		return "//input[@id='"+nameInput+"']";
 	}
