@@ -11,8 +11,6 @@ public class MenuPage extends BasePage{
 		} catch (Exception e) {
 			System.out.println("Não foi possível interagir com o elemento: "+e.getMessage());
 		}
-		
-		
 	}
 	
 	public void listAccounts() {
@@ -21,6 +19,15 @@ public class MenuPage extends BasePage{
 			utils.clickLink("Listar", "ClickAdd");
 		} catch (Exception e) {
 			System.out.println("Não foi possível interagir com o elemento: "+e.getMessage());
+		}
+	}
+	
+	public void movementAccounts() {
+		try {
+			utils.clickLink("Criar Movimentação", "clickMovementAccount");
+			
+		} catch (Exception e) {
+			System.out.println("Não foi possível interagir com o elemento: " + e.getMessage());
 		}
 		
 	}

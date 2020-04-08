@@ -4,6 +4,9 @@ package model.utilities;
 
 import static model.core.DriverFactory.getDriver;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.openqa.selenium.Alert;
@@ -19,6 +22,11 @@ public class Utils {
 	public GetScreenShoot getScreenShoot = new GetScreenShoot();
 	
 	/************ Click ************/
+	
+	public void clickElement(WebElement element, String nameStep) {
+		GetScreenShoot.getEvidenceElement(nameStep, element);
+		element.click();
+	}
 	
 	public void click(String elementToBeClickable) {
 		getDriver().findElement(By.xpath(mapComponentes.elementInput(elementToBeClickable))).click();
@@ -72,6 +80,13 @@ public class Utils {
 	
 	public Object obtainedText(String tagName,String element) {
 		return getDriver().findElement(By.xpath(mapComponentes.elementInput(element, tagName))).getAttribute("value") ;
+	}
+	
+	public String getAlertText(String classAlert, String nameStep) {
+		WebElement element = getDriver().findElement(By.xpath(mapComponentes.elementAlert(classAlert)));
+		GetScreenShoot.getEvidenceElement(nameStep, element);
+
+		return element.getText();
 	}
 	
 	/************ Element_Radio ************/
@@ -171,5 +186,20 @@ public class Utils {
 
 	}
 	
+	/************ Date ************/
+	
+	
+	public Date obtainedDateWithDifferenceOfDays(int differenceOfDays) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.add(Calendar.DAY_OF_MONTH, differenceOfDays);
+		return calendar.getTime();
+		
+	}
+	
+	public String obtainedDateFormated(Date date) {
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		return sdf.format(date);
+
+	}
 	
 }

@@ -5,6 +5,9 @@ public class mapComponentes {
 	public String loginButton = "//button[text()='Entrar']";
 	public String elementTableClick = ".//span[@class='glyphicon glyphicon-edit']";
 	
+	public static String elementAlert(String classAlert) {
+		return "//div[@class='"+classAlert+"']";
+	}
 	
 	public static String elementButton(String name) {
 		return "//button[text()='"+name+"']";

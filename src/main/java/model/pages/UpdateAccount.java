@@ -1,5 +1,7 @@
 package model.pages;
 
+import static org.junit.Assert.assertEquals;
+
 import model.core.BasePage;
 
 public class UpdateAccount extends BasePage{
@@ -12,5 +14,7 @@ public class UpdateAccount extends BasePage{
 		utils.click("nome", "clickInputAccount");
 		utils.write("nome", account, "writeAccount");
 		utils.clickButton("Salvar", "save");	
+		assertEquals("Conta alterada com sucesso!",utils.getAlertText("alert alert-success","alertMessage"));
+
 	}
 }
