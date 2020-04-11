@@ -5,11 +5,13 @@ import static model.core.DriverFactory.getDriver;
 import static model.core.DriverFactory.killDriver;
 import static model.core.Properties.CLOSE_BROWNSER;
 
+import java.awt.List;
 import java.awt.Toolkit;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.apache.commons.io.serialization.ClassNameMatcher;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -31,6 +33,9 @@ public class BaseTest {
 	protected static String executionTestName;
 	protected static String evidencePath;
 	protected static int evidenceCount;
+	protected static String[] className;
+	protected static String tableName;
+	protected static String folderName;
 	private LoginPage login;
 	
 	public BaseTest() {
@@ -39,6 +44,7 @@ public class BaseTest {
 	
 	public BaseTest(String executionTestName){
 		BaseTest.executionTestName = executionTestName;
+
 	}
 	
 	public static Date getTimeStamps() {
@@ -53,8 +59,7 @@ public class BaseTest {
 	@Before
 	public void before() {
 		System.setProperty("webdriver.chrome.driver",System.getProperty("user.dir") + "//driver//chromedriver.exe");
-		getTimeStamps();
-		evidencePath = System.getProperty("user.dir")+"/outPut/"+sdf.format(timeStamps);
+		evidencePath = System.getProperty("user.dir")+"/outPut/"+sdf.format(getTimeStamps());
 		this.login = new LoginPage();
 		login.setLogin();
 		
@@ -69,6 +74,13 @@ public class BaseTest {
 			killDriver();
 		}
 		
+	}
+	
+	public static List<Object> loadData(){
+		className = new Throwable().getStackTrace()[1].getClassName().toString().split("\\W");
+		tableName = className[className.length-1];
+		folderName = className[className.length - 2];
+		return;
 	}
 	
 	protected static void scrolltoElement(WebElement element) {

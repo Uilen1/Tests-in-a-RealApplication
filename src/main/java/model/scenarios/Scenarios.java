@@ -15,6 +15,9 @@ public class Scenarios extends BaseTest{
 	private MovementPage movement = new MovementPage();
 	private ResumePage resumePage = new ResumePage();
 	
+	public Scenarios () {
+		super("SeuBarriga");
+	}
 	
 	@Test
 	public void Test() {
