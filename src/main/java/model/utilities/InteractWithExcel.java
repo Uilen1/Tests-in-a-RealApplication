@@ -5,11 +5,12 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Collection;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.DateUtil;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -21,7 +22,7 @@ public class InteractWithExcel {
 	private static FileInputStream fisExcel;
 	private static XSSFWorkbook workBook;
 	private static XSSFSheet sheet;
-	private static List<Object> runTests;
+	private static Object[][] runTests;
 
 	public InteractWithExcel(String scenararioName, String className) {
 		this.scenarioName = scenararioName;
@@ -50,6 +51,14 @@ public class InteractWithExcel {
 		}
 		sheet = workBook.getSheetAt(0);
 	}
+	
+	public int getNumberOfRows() {
+		return sheet.getPhysicalNumberOfRows();
+	}
+	
+	public int getNumberOfCells() {
+		return sheet.getRow(0).getLastCellNum();
+	}
 
 	public int getSpecificIndex(String columnHeader) {
 		int columnIndex = 0;
@@ -77,21 +86,127 @@ public class InteractWithExcel {
 
 	}
 
-	public Collection<Object> runTestInData(String columnHeader) {
+	public List<Object[]> runTestInData(String columnHeader) {
 		int columnIndex = getSpecificIndex(columnHeader);
+		int i = 0;
+		Iterator<Row> rowIterator = sheet.rowIterator();
+
+		while (rowIterator.hasNext() && (i < sheet.getPhysicalNumberOfRows() - 1)) {
+			int j = 0;
+			Row row = rowIterator.next();
+			Iterator<Cell> cellIterator = row.cellIterator();
+
+			if (runTests == null) {
+				runTests = new Object[sheet.getPhysicalNumberOfRows()][row.getPhysicalNumberOfCells()];
+			}
+			if (row.getRowNum() == 0) {
+				continue;
+			}
+
+			while (cellIterator.hasNext()) {
+				Cell oneCell = cellIterator.next();
+
+				if (row.getCell(columnIndex).getStringCellValue().contentEquals("Yes")) {
+					switch (oneCell.getCellType()) {
+					case NUMERIC:
+						if (DateUtil.isCellDateFormatted(oneCell)) {
+							runTests[i][j] = oneCell.getDateCellValue();
+						} else {
+							runTests[i][j] = oneCell.getNumericCellValue();
+						}
+						j++;
+						break;
+					case STRING:
+						runTests[i][j] = oneCell.getStringCellValue();
+						j++;
+						break;
+					case FORMULA:
+						runTests[i][j] = oneCell.getCellFormula();
+						j++;
+						break;
+					case BLANK:
+	                    runTests[i][j] = "";
+	                    j++;
+	                    break;
+					case BOOLEAN:
+						runTests[i][j] = oneCell.getBooleanCellValue();
+						j++;
+						break;
+					case ERROR:
+						runTests[i][j] = oneCell.getErrorCellValue();
+						j++;
+						break;
+					default:
+						throw new IllegalArgumentException("Invalid cell type " + oneCell.getCellType());
+					}
+				}
+
+			}
+
+			i++;
+
+		}
+		return Arrays.asList(runTests);
+
+	}
+
+	public Object[][] loadExcel() {
+
+		initializeData();
+		int i = 0;
+		int j = 0;
+		Object[][] loadData = null;
+
 		Iterator<Row> rowIterator = sheet.rowIterator();
 
 		while (rowIterator.hasNext()) {
-
+			j = 0;
 			Row row = rowIterator.next();
-
-			if (row.getCell(columnIndex).getStringCellValue().contentEquals("Yes")) {
-				runTests.add(row);
-				break;
+			Iterator<Cell> cellIterator = row.cellIterator();
+			if (loadData == null) {
+				loadData = new Object[sheet.getPhysicalNumberOfRows()][row.getPhysicalNumberOfCells()];
 			}
 
+			while (cellIterator.hasNext()) {
+				Cell oneCell = cellIterator.next();
+				switch (oneCell.getCellType()) {
+				case NUMERIC:
+					if (DateUtil.isCellDateFormatted(oneCell)) {
+						loadData[i][j] = oneCell.getDateCellValue();
+					} else {
+						loadData[i][j] = oneCell.getNumericCellValue();
+					}
+					j++;
+					break;
+				case STRING:
+					loadData[i][j] = oneCell.getStringCellValue();
+					j++;
+					break;
+				case FORMULA:
+					loadData[i][j] = oneCell.getCellFormula();
+					j++;
+					break;
+				case BLANK:
+                    loadData[i][j] = "";
+                    j++;
+                    break;
+				case BOOLEAN:
+					loadData[i][j] = oneCell.getBooleanCellValue();
+					j++;
+					break;
+				case ERROR:
+					loadData[i][j] = oneCell.getErrorCellValue();
+					j++;
+					break;
+				default:
+					throw new IllegalArgumentException("Invalid cell type " + oneCell.getCellType());
+				}
+			}
+			
+			i++;
 		}
-		return runTests;
-
+		
+		return loadData;
 	}
+
 }
