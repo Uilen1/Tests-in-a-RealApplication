@@ -5,9 +5,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Iterator;
-import java.util.List;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DateUtil;
@@ -23,6 +21,8 @@ public class InteractWithExcel {
 	private static XSSFWorkbook workBook;
 	private static XSSFSheet sheet;
 	private static Object[][] runTests;
+	
+	public int AMOUNT_RUN_TESTS;
 
 	public InteractWithExcel(String scenararioName, String className) {
 		this.scenarioName = scenararioName;
@@ -51,11 +51,11 @@ public class InteractWithExcel {
 		}
 		sheet = workBook.getSheetAt(0);
 	}
-	
+
 	public int getNumberOfRows() {
 		return sheet.getPhysicalNumberOfRows();
 	}
-	
+
 	public int getNumberOfCells() {
 		return sheet.getRow(0).getLastCellNum();
 	}
@@ -86,8 +86,25 @@ public class InteractWithExcel {
 
 	}
 
-	public List<Object[]> runTestInData(String columnHeader) {
+	public int amountRunTests(String columnHeader) {
 		int columnIndex = getSpecificIndex(columnHeader);
+		int amount = 0;
+		initializeData();
+		Iterator<Row> rowIterator = sheet.rowIterator();
+
+		while (rowIterator.hasNext()) {
+			Row row = rowIterator.next();
+			if (row.getCell(columnIndex).getStringCellValue().contentEquals("Yes")) {
+				amount++;
+			}
+
+		}
+		return amount;
+	}
+
+	public Object[][] runTestInData(String columnHeader) {
+		int columnIndex = getSpecificIndex(columnHeader);
+		AMOUNT_RUN_TESTS = 0;
 		int i = 0;
 		Iterator<Row> rowIterator = sheet.rowIterator();
 
@@ -97,16 +114,15 @@ public class InteractWithExcel {
 			Iterator<Cell> cellIterator = row.cellIterator();
 
 			if (runTests == null) {
-				runTests = new Object[sheet.getPhysicalNumberOfRows()][row.getPhysicalNumberOfCells()];
+				runTests = new Object[amountRunTests(columnHeader)][row.getPhysicalNumberOfCells()];
 			}
 			if (row.getRowNum() == 0) {
 				continue;
 			}
+			if (row.getCell(columnIndex).getStringCellValue().contentEquals("Yes")) {
+				while (cellIterator.hasNext()) {
+					Cell oneCell = cellIterator.next();
 
-			while (cellIterator.hasNext()) {
-				Cell oneCell = cellIterator.next();
-
-				if (row.getCell(columnIndex).getStringCellValue().contentEquals("Yes")) {
 					switch (oneCell.getCellType()) {
 					case NUMERIC:
 						if (DateUtil.isCellDateFormatted(oneCell)) {
@@ -125,9 +141,9 @@ public class InteractWithExcel {
 						j++;
 						break;
 					case BLANK:
-	                    runTests[i][j] = "";
-	                    j++;
-	                    break;
+						runTests[i][j] = "";
+						j++;
+						break;
 					case BOOLEAN:
 						runTests[i][j] = oneCell.getBooleanCellValue();
 						j++;
@@ -140,13 +156,12 @@ public class InteractWithExcel {
 						throw new IllegalArgumentException("Invalid cell type " + oneCell.getCellType());
 					}
 				}
-
+				AMOUNT_RUN_TESTS++;
+				i++;
 			}
 
-			i++;
-
 		}
-		return Arrays.asList(runTests);
+		return runTests;
 
 	}
 
@@ -187,9 +202,9 @@ public class InteractWithExcel {
 					j++;
 					break;
 				case BLANK:
-                    loadData[i][j] = "";
-                    j++;
-                    break;
+					loadData[i][j] = "";
+					j++;
+					break;
 				case BOOLEAN:
 					loadData[i][j] = oneCell.getBooleanCellValue();
 					j++;
@@ -202,10 +217,10 @@ public class InteractWithExcel {
 					throw new IllegalArgumentException("Invalid cell type " + oneCell.getCellType());
 				}
 			}
-			
+
 			i++;
 		}
-		
+
 		return loadData;
 	}
 
