@@ -3,6 +3,8 @@ package model.core;
 import model.utilities.enumDriver;
 
 public class Properties {
+	
+	public static int NUMBER_ROW_TEST;
 
 	public static final Boolean DISABLE_ELEMENT_HIGHLIGHTS = false;
 	

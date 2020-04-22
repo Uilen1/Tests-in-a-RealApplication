@@ -19,10 +19,12 @@ import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebElement;
 
+import model.core.BasePage;
 import model.core.BaseTest;
 import model.core.Properties;
 
 public class GetScreenShoot extends BaseTest {
+	static BasePage basePage = new BasePage();
 	
 	public GetScreenShoot() {
 	}
@@ -30,7 +32,7 @@ public class GetScreenShoot extends BaseTest {
 	public static void getEvidenceElement(String nameTest, WebElement... elements) {
 		try {
 			for(WebElement element:elements) {
-				scrolltoElement(element);
+				basePage.scrolltoElement(element);
 				TakesScreenshot takeSs = (TakesScreenshot) getDriver();
 				File file = takeSs.getScreenshotAs(OutputType.FILE);
 				FileUtils.copyFile(file, new File(System.getProperty("user.dir") + ""+File.separator+"outPut"
@@ -61,40 +63,40 @@ public class GetScreenShoot extends BaseTest {
 
 			for (WebElement element : elements) {
 				WebElement webElement;
-				switch (getLocatorFromWebElement(element)) {
+				switch (BasePage.getLocatorFromWebElement(element)) {
 				case "id":
-					webElement = driver.findElement(By.id(getValueFromWebElement(element)));
+					webElement = driver.findElement(By.id(BasePage.getValueFromWebElement(element)));
 					break;
 				case "className":
-					webElement = driver.findElement(By.className(getValueFromWebElement(element)));
+					webElement = driver.findElement(By.className(BasePage.getValueFromWebElement(element)));
 					break;
 				case "tagName":
-					webElement = driver.findElement(By.tagName(getValueFromWebElement(element)));
+					webElement = driver.findElement(By.tagName(BasePage.getValueFromWebElement(element)));
 					break;
 				case "xpath":
-					webElement = driver.findElement(By.xpath(getValueFromWebElement(element)));
+					webElement = driver.findElement(By.xpath(BasePage.getValueFromWebElement(element)));
 					break;
 				case "cssSelector":
-					webElement = driver.findElement(By.cssSelector(getValueFromWebElement(element)));
+					webElement = driver.findElement(By.cssSelector(BasePage.getValueFromWebElement(element)));
 					break;
 				case "linkText":
-					webElement = driver.findElement(By.linkText(getValueFromWebElement(element)));
+					webElement = driver.findElement(By.linkText(BasePage.getValueFromWebElement(element)));
 					break;
 				case "name":
-					webElement = driver.findElement(By.name(getValueFromWebElement(element)));
+					webElement = driver.findElement(By.name(BasePage.getValueFromWebElement(element)));
 					break;
 				case "partialLinkText":
-					webElement = driver.findElement(By.partialLinkText(getValueFromWebElement(element)));
+					webElement = driver.findElement(By.partialLinkText(BasePage.getValueFromWebElement(element)));
 					break;
 				default:
-					throw new IllegalStateException("locator : " + getLocatorFromWebElement(element) + " not found!!!");
+					throw new IllegalStateException("locator : " + BasePage.getLocatorFromWebElement(element) + " not found!!!");
 				}
 
 				int width = (int) (webElement.getSize().getWidth() * percentScale);
 				int height = (int) (webElement.getSize().getHeight() * percentScale);
-				String yPosition = executarJavascript("return arguments[0].getBoundingClientRect().top", webElement)
+				String yPosition = BasePage.executarJavascript("return arguments[0].getBoundingClientRect().top", webElement)
 						.toString();
-				String xPosition = executarJavascript("return arguments[0].getBoundingClientRect().left", webElement)
+				String xPosition = BasePage.executarJavascript("return arguments[0].getBoundingClientRect().left", webElement)
 						.toString();
 				int y = (int) (Integer.parseInt(
 						(yPosition.contains(".") ? yPosition.substring(0, yPosition.indexOf(".")) : yPosition))

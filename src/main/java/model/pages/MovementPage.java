@@ -77,10 +77,13 @@ public class MovementPage extends BasePage{
 		return element.getText();
 	}
 	
-	/************ Element_Radio ************/
+	/************ Element_Radio 
+	 * @throws InterruptedException ************/
 	
-	public void selectItemCombo(String item, String element,String nameStep) {
+	public void selectItemCombo(String item, String element,String nameStep) throws InterruptedException {
 		WebElement elementWeb = movementMap.elementSelected(element);
+		scrolltoElement(elementWeb);
+		Thread.sleep(1000);
 		Select combo = new Select(elementWeb);
 		combo.selectByVisibleText(item);
 		GetScreenShoot.getEvidenceElement(nameStep, elementWeb);
