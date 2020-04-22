@@ -15,14 +15,11 @@ public class DataDictionary {
 	}
 
 	public List<HashMap<String, Object>> getDictionary() {
-		int i = 0;
 		List<HashMap<String, Object>> excelList = new ArrayList<HashMap<String, Object>>();
 		excelList = iwe.runTestInData("RunTest");
 
 		for (HashMap<String, Object> hashMap : excelList) {
 			dataDictionary.add(hashMap);
-			dictionary = dataDictionary.get(i);
-			i++;
 		}
 
 		return dataDictionary;
