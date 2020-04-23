@@ -12,8 +12,14 @@ public class NameRunTest {
 	}
 	
 	public List<String> getNameRunTest(){
-		nameRunTest = iwe.nameRunTests("RunTest");
+		try {
+			nameRunTest = iwe.nameRunTests("RunTest");
+			
+		} catch (Exception e) {
+			System.out.println("Não foi possível obter os nomes dos testes!" + e.getMessage());
+		}
 		return nameRunTest;
+		
 	}
 	
 }

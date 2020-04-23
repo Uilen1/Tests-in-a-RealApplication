@@ -1,17 +1,28 @@
 package model.utilities.excel;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
 public class TestExcel {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		InteractWithExcel excelData = new InteractWithExcel("scenarios", "Scenarios");
 		GlobalData gd = new GlobalData("scenarios", "Scenarios");
 
+		int nr = excelData.getSpecificRowOfTest("CT 01");
+
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		excelData.setCellData(sdf.format(new Date()),"CT 05","vOutData");
+		excelData.createExcelBackup();
+
+		System.out.println(nr);
+
+		System.out.println("\n/*********************************************************/\n");
+
 		List<Object> test = gd.getData();
-		
-		
+
 		for (Object obj : test) {
 			System.out.println(obj);
 		}

@@ -9,7 +9,7 @@ public class GlobalData {
 	private NameRunTest nrt;
 	private String scenarioName;
 	private String className;
-	private List<Object> test = new ArrayList<Object>();
+	private List<Object> testCase = new ArrayList<Object>();
 
 	public GlobalData(String scenarioName, String className) {
 		this.nrt = new NameRunTest(scenarioName, className);
@@ -17,18 +17,22 @@ public class GlobalData {
 		this.className = className;
 	}
 
-	public List<Object> getData() {
+	public List<Object> getData(){
 		int i = 0;
-		for (String string : nrt.getNameRunTest()) {
-			this.dd = new DataDictionary(scenarioName, className);
-			Object[] obj = new Object[2];
-			dd.dictionary = dd.getDictionary().get(i);
-			obj[0] = string;
-			obj[1] = dd;
-			test.add(obj);
-			i++;
+		try {
+			for (String nameRunTest : nrt.getNameRunTest()) {
+				this.dd = new DataDictionary(scenarioName, className);
+				Object[] obj = new Object[2];
+				dd.dictionary = dd.getDictionary().get(i);
+				obj[0] = nameRunTest;
+				obj[1] = dd;
+				testCase.add(obj);
+				i++;
+			}
+		} catch (Exception e) {
+			System.out.println("Não possível obter o nome e os casos de teste da planilha! " + e.getMessage());
 		}
-		return test;
+		return testCase;
 	}
 
 }

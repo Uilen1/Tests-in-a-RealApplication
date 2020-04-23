@@ -8,7 +8,6 @@ public class DataDictionary {
 
 	public HashMap<String, Object> dictionary;
 	protected InteractWithExcel iwe;
-	protected List<HashMap<String, Object>> dataDictionary = new ArrayList<HashMap<String, Object>>();
 
 	public DataDictionary(String scenarioName, String className) {
 		iwe = new InteractWithExcel(scenarioName, className);
@@ -16,13 +15,13 @@ public class DataDictionary {
 
 	public List<HashMap<String, Object>> getDictionary() {
 		List<HashMap<String, Object>> excelList = new ArrayList<HashMap<String, Object>>();
-		excelList = iwe.runTestInData("RunTest");
+		try {
+			excelList = iwe.runTestInData("RunTest");
 
-		for (HashMap<String, Object> hashMap : excelList) {
-			dataDictionary.add(hashMap);
+		} catch (Exception e) {
+			System.out.println("Não foi possível obter o dicionário de testes da planilha!" + e.getMessage());
 		}
-
-		return dataDictionary;
+		return excelList;
 
 	}
 

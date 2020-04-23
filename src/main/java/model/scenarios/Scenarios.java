@@ -40,7 +40,6 @@ public class Scenarios extends BaseTest{
 		movement.toCreateMovement((String)excelData.get("vCreateMovement"));
 		resumePage.deleteMovementAccount();
 		
-		
 	}
 	
 }
