@@ -29,7 +29,7 @@ public class GetScreenShoot extends BaseTest {
 	public GetScreenShoot() {
 	}
 
-	public static void getEvidenceElement(String nameTest, WebElement... elements) {
+	public static void getEvidenceElement(String nameTest, WebElement... elements) throws Exception{
 		try {
 			for(WebElement element:elements) {
 				basePage.scrolltoElement(element);
@@ -43,11 +43,11 @@ public class GetScreenShoot extends BaseTest {
 			
 			} catch (Exception e) {
 
-				System.out.println("Error in get evidence: " + e.getMessage());
+;				System.out.println("Error in get evidence: " + e.getMessage());
 			}
 	}
 
-	protected static void higthlight(String name, WebElement... elements) {
+	protected static void higthlight(String name, WebElement... elements) throws Exception {
 		if (DISABLE_ELEMENT_HIGHLIGHTS)
 			return;
 		String imagePath = evidencePath + "/"+"00"+evidenceCount+"_"+name+".png";

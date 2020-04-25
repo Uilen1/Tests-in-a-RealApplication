@@ -13,6 +13,7 @@ public class GlobalData {
 
 	public GlobalData(String scenarioName, String className) {
 		this.nrt = new NameRunTest(scenarioName, className);
+		this.dd = new DataDictionary(scenarioName, className);
 		this.scenarioName = scenarioName;
 		this.className = className;
 	}
@@ -33,6 +34,14 @@ public class GlobalData {
 			System.out.println("Não possível obter o nome e os casos de teste da planilha! " + e.getMessage());
 		}
 		return testCase;
+	}
+	
+	public void setData(String value, String testName ,String columnHeader) {
+		dd.iwe.setCellData(value, testName, columnHeader);
+	}
+	
+	public void setBackup() {
+		dd.iwe.createExcelBackup();
 	}
 
 }

@@ -8,73 +8,99 @@ import model.core.BasePage;
 import model.map.InsertAccountMap;
 import model.utilities.GetScreenShoot;
 
-public class InsertAccountPage extends BasePage{
-	
+public class InsertAccountPage extends BasePage {
+
 	private MenuPage menuPage = new MenuPage();
 	private InsertAccountMap insertAccountMap = new InsertAccountMap();
-	
-	public void insertAccount(String account) {
+
+	public void insertAccount(String account) throws Exception {
 		try {
 			menuPage.setAccount();
 			click("nome", "clickInputAccount");
 			write("nome", account, "writeAccount");
 			clickButton("Salvar", "save");
-			assertEquals("Conta adicionada com sucesso!", utils.getAlertText("alert alert-success","alertMessage"));
+			assertEquals("Conta adicionada com sucesso!", utils.getAlertText("alert alert-success", "alertMessage"));
 
 		} catch (Exception e) {
-			System.out.println("Não foi possível interagir com o elemento: " + e.getMessage());
+			throw new Exception(e.getMessage());
 		}
-						
+
 	}
-	
-	public void checkExceptions(String account) {
+
+	public void checkExceptions(String account) throws Exception {
 		try {
-			
+
 			menuPage.setAccount();
 			click("nome", "clickInputAccount");
 			write("nome", account, "writeAccount");
 			clickButton("Salvar", "save");
-			assertEquals("Já existe uma conta com esse nome!", getAlertText("alert alert-danger","alertMessage"));
-			
+			assertEquals("Já existe uma conta com esse nome!", getAlertText("alert alert-danger", "alertMessage"));
+
 		} catch (Exception e) {
-			System.out.println("Não foi possivel interagir com o elemento: " + e.getMessage());
+			throw new Exception(e.getMessage());
 		}
 	}
-	
+
 	/************ Click ************/
-	
-	public void click(String elementToBeClickable) {
-		insertAccountMap.elementInput(elementToBeClickable).click();
+
+	public void click(String elementToBeClickable) throws Exception {
+		WebElement element = insertAccountMap.elementInput(elementToBeClickable);
+		try {
+			element.click();
+		} catch (Exception e) {
+
+			throw new Exception("Não foi possível interagir com o elemento: " + element + "\n");
+		}
 	}
 
-	public void click(String elementToBeClickable, String nameStep) {
-		insertAccountMap.elementInput(elementToBeClickable).click();
-		GetScreenShoot.getEvidenceElement(nameStep,insertAccountMap.elementInput(elementToBeClickable));
+	public void click(String elementToBeClickable, String nameStep) throws Exception {
+		WebElement element = insertAccountMap.elementInput(elementToBeClickable);
+		try {
+			element.click();
+			GetScreenShoot.getEvidenceElement(nameStep, element);
+		} catch (Exception e) {
+			throw new Exception("Não foi possível interagir com o elemento: " + element + "\n");
+		}
 
 	}
-	
-	public void clickButton(String elementToBeClickable, String nameStep) {
-		GetScreenShoot.getEvidenceElement(nameStep, insertAccountMap.elementButton(elementToBeClickable));
-		insertAccountMap.elementButton(elementToBeClickable).click();
+
+	public void clickButton(String elementToBeClickable, String nameStep) throws Exception {
+		WebElement element = insertAccountMap.elementButton(elementToBeClickable);
+		try {
+			GetScreenShoot.getEvidenceElement(nameStep, element);
+			element.click();
+		} catch (Exception e) {
+			throw new Exception("Não foi possível interagir com o elemento: " + element + "\n");
+		}
 
 	}
-	
+
 	/************ Write ************/
-	
-	public void write(String element, String text,String nameStep) {
-		insertAccountMap.elementInput(element).sendKeys(text);
-		GetScreenShoot.getEvidenceElement(nameStep, insertAccountMap.elementInput(element));
+
+	public void write(String element, String text, String nameStep) throws Exception {
+		WebElement elements = insertAccountMap.elementInput(element);
+
+		try {
+			elements.sendKeys(text);
+			GetScreenShoot.getEvidenceElement(nameStep, elements);
+		} catch (Exception e) {
+			throw new Exception("Não foi possível interagir com o elemento: " + element + "\n");
+		}
 
 	}
-	
+
 	/************ Obtained_Texts ************/
-	
-	public String getAlertText(String classAlert, String nameStep) {
-		WebElement element = insertAccountMap.elementAlert(classAlert);
-		GetScreenShoot.getEvidenceElement(nameStep, element);
 
+	public String getAlertText(String classAlert, String nameStep) throws Exception {
+		WebElement element = insertAccountMap.elementAlert(classAlert);
+		try {
+			GetScreenShoot.getEvidenceElement(nameStep, element);
+
+		} catch (Exception e) {
+			throw new Exception("Não foi possível interagir com o elemento: " + element + "\n");
+		}
 		return element.getText();
+
 	}
-	
 
 }

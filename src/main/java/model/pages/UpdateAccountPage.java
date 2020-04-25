@@ -16,7 +16,7 @@ public class UpdateAccountPage extends BasePage {
 	private MenuPage menuPage = new MenuPage();
 	private UpdateAccountMap updateAccountMap = new UpdateAccountMap();
 
-	public void updateAccount(String updateAccount, String nameAccount) throws Exception {
+	public void updateAccount(String updateAccount, String nameAccount) throws Exception{
 		try {
 			menuPage.listAccounts();
 			clickElementTable("Conta", nameAccount, "tabelaContas", "Ações", "clickUpdate");
@@ -25,24 +25,25 @@ public class UpdateAccountPage extends BasePage {
 			clickButton("Salvar", "save");
 			assertEquals("Conta alterada com sucesso!", getAlertText("alert alert-success", "alertMessage"));
 		} catch (Exception e) {
-			throw new Exception("Não foi possível encontrar a conta a ser alterada!" + e.getMessage());
+			System.out.println("Não foi possível encontrar a conta a ser alterada! \n");
+			throw new Exception(e.getMessage());
 		}
 
 	}
 
 	/************ Click ************/
 
-	public void click(String elementToBeClickable) {
+	public void click(String elementToBeClickable) throws Exception{
 		updateAccountMap.elementInput(elementToBeClickable).click();
 	}
 
-	public void click(String elementToBeClickable, String nameStep) {
+	public void click(String elementToBeClickable, String nameStep) throws Exception {
 		updateAccountMap.elementInput(elementToBeClickable).click();
 		GetScreenShoot.getEvidenceElement(nameStep, updateAccountMap.elementInput(elementToBeClickable));
 
 	}
 
-	public void clickButton(String elementToBeClickable, String nameStep) {
+	public void clickButton(String elementToBeClickable, String nameStep) throws Exception{
 		GetScreenShoot.getEvidenceElement(nameStep, updateAccountMap.elementButton(elementToBeClickable));
 		updateAccountMap.elementButton(elementToBeClickable).click();
 
@@ -50,7 +51,7 @@ public class UpdateAccountPage extends BasePage {
 
 	/************ Write ************/
 
-	public void write(String element, String text, String nameStep) {
+	public void write(String element, String text, String nameStep) throws Exception{
 		updateAccountMap.elementInput(element).sendKeys(text);
 		GetScreenShoot.getEvidenceElement(nameStep, updateAccountMap.elementInput(element));
 
@@ -58,7 +59,7 @@ public class UpdateAccountPage extends BasePage {
 
 	/************ Obtained_Texts ************/
 
-	public String getAlertText(String classAlert, String nameStep) {
+	public String getAlertText(String classAlert, String nameStep) throws Exception{
 		WebElement element = updateAccountMap.elementAlert(classAlert);
 		GetScreenShoot.getEvidenceElement(nameStep, element);
 
@@ -67,12 +68,12 @@ public class UpdateAccountPage extends BasePage {
 
 	/************ Tables ************/
 
-	public WebElement getTable(String idTable) {
+	public WebElement getTable(String idTable) throws Exception{
 		return updateAccountMap.elementTable(idTable);
 
 	}
 
-	public int getColumn(String register, String idTable) {
+	public int getColumn(String register, String idTable) throws Exception {
 		int cont = -1;
 		List<WebElement> column = getTable(idTable).findElements(By.xpath(".//th"));
 		for (int i = 0; i < column.size(); i++) {
@@ -84,7 +85,7 @@ public class UpdateAccountPage extends BasePage {
 		return cont;
 	}
 
-	public int getRow(String register, int idColumn, String idTable) {
+	public int getRow(String register, int idColumn, String idTable) throws Exception {
 		int cont = -1;
 		getTable(idTable);
 		List<WebElement> row = getTable(idTable).findElements(By.xpath("./tbody/tr/td[" + idColumn + "]"));
@@ -98,7 +99,7 @@ public class UpdateAccountPage extends BasePage {
 	}
 
 	public WebElement ElementTable(String register, String nameAccount, String idTable, String nameColumnAction,
-			String nameStep) {
+			String nameStep) throws Exception{
 		int idColumn = getColumn(register, idTable);
 		int idRow = getRow(nameAccount, idColumn, idTable);
 		int idColumnButton = getColumn(nameColumnAction, idTable);
@@ -106,7 +107,7 @@ public class UpdateAccountPage extends BasePage {
 	}
 
 	public void clickElementTable(String register, String nameAccount, String idTable, String nameColumnAction,
-			String nameStep) {
+			String nameStep) throws Exception {
 		WebElement elementButton = ElementTable(register, nameAccount, idTable, nameColumnAction, nameStep);
 		WebElement tableButton = elementButton.findElement(By.xpath(updateAccountMap.elementTableClick));
 		GetScreenShoot.getEvidenceElement(nameStep, elementButton);
