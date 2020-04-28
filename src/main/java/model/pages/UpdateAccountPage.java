@@ -25,8 +25,7 @@ public class UpdateAccountPage extends BasePage {
 			clickButton("Salvar", "save");
 			assertEquals("Conta alterada com sucesso!", getAlertText("alert alert-success", "alertMessage"));
 		} catch (Exception e) {
-			System.out.println("Não foi possível encontrar a conta a ser alterada! \n");
-			throw new Exception(e.getMessage());
+			throw new Exception("Erro ao alterar a conta: \n" + e.getMessage());
 		}
 
 	}
@@ -34,83 +33,145 @@ public class UpdateAccountPage extends BasePage {
 	/************ Click ************/
 
 	public void click(String elementToBeClickable) throws Exception{
-		updateAccountMap.elementInput(elementToBeClickable).click();
+		WebElement element = updateAccountMap.elementInput(elementToBeClickable);
+		try {
+			element.click();
+		} catch (Exception e) {
+
+			throw new Exception("Não foi possível interagir com o elemento: " + element + "\n");
+		}
 	}
 
 	public void click(String elementToBeClickable, String nameStep) throws Exception {
-		updateAccountMap.elementInput(elementToBeClickable).click();
-		GetScreenShoot.getEvidenceElement(nameStep, updateAccountMap.elementInput(elementToBeClickable));
+		
+		WebElement element = updateAccountMap.elementInput(elementToBeClickable);
+		try {
+			element.click();
+			GetScreenShoot.getEvidenceElement(nameStep, element);
+
+		} catch (Exception e) {
+
+			throw new Exception("Não foi possível interagir com o elemento: " + element + "\n");
+		}
 
 	}
 
 	public void clickButton(String elementToBeClickable, String nameStep) throws Exception{
-		GetScreenShoot.getEvidenceElement(nameStep, updateAccountMap.elementButton(elementToBeClickable));
-		updateAccountMap.elementButton(elementToBeClickable).click();
+		WebElement element = updateAccountMap.elementButton(elementToBeClickable);
+		try {
+			GetScreenShoot.getEvidenceElement(nameStep, element);
+			element.click();
+		} catch (Exception e) {
 
+			throw new Exception("Não foi possível interagir com o elemento: " + element + "\n");
+		}
+		
 	}
 
 	/************ Write ************/
 
 	public void write(String element, String text, String nameStep) throws Exception{
-		updateAccountMap.elementInput(element).sendKeys(text);
-		GetScreenShoot.getEvidenceElement(nameStep, updateAccountMap.elementInput(element));
+		WebElement elements = updateAccountMap.elementInput(element);
+		try {
+			elements.sendKeys(text);
+			GetScreenShoot.getEvidenceElement(nameStep, elements);
 
+		} catch (Exception e) {
+			throw new Exception("Não foi possível interagir com o elemento: " + element + "\n");
+		}
+		
 	}
 
 	/************ Obtained_Texts ************/
 
 	public String getAlertText(String classAlert, String nameStep) throws Exception{
 		WebElement element = updateAccountMap.elementAlert(classAlert);
-		GetScreenShoot.getEvidenceElement(nameStep, element);
+		try {
+			GetScreenShoot.getEvidenceElement(nameStep, element);
+			return element.getText();
 
-		return element.getText();
+		} catch (Exception e) {
+			throw new Exception("Não foi possível interagir com o elemento: " + element + "\n");
+		}
+		
 	}
 
 	/************ Tables ************/
 
 	public WebElement getTable(String idTable) throws Exception{
-		return updateAccountMap.elementTable(idTable);
+		WebElement element = updateAccountMap.elementTable(idTable);
+		try {
+			
+			return element;
+
+		} catch (Exception e) {
+			throw new Exception("Não foi possível interagir com o elemento: " + element + "\n");
+		}
 
 	}
 
 	public int getColumn(String register, String idTable) throws Exception {
 		int cont = -1;
-		List<WebElement> column = getTable(idTable).findElements(By.xpath(".//th"));
-		for (int i = 0; i < column.size(); i++) {
-			if (column.get(i).getText().equals(register)) {
-				cont = i + 1;
-				break;
+		try {
+			List<WebElement> column = getTable(idTable).findElements(By.xpath(".//th"));
+			for (int i = 0; i < column.size(); i++) {
+				if (column.get(i).getText().equals(register)) {
+					cont = i + 1;
+					break;
+				}
 			}
+			return cont;
+		} catch (Exception e) {
+			throw new Exception("Não foi possível encontrar a coluna da tabela: \n");
 		}
-		return cont;
+		
 	}
 
 	public int getRow(String register, int idColumn, String idTable) throws Exception {
 		int cont = -1;
-		getTable(idTable);
-		List<WebElement> row = getTable(idTable).findElements(By.xpath("./tbody/tr/td[" + idColumn + "]"));
-		for (int i = 0; i < row.size(); i++) {
-			if (row.get(i).getText().equals(register)) {
-				cont = i + 1;
-				break;
+		try {
+			getTable(idTable);
+			List<WebElement> row = getTable(idTable).findElements(By.xpath("./tbody/tr/td[" + idColumn + "]"));
+			for (int i = 0; i < row.size(); i++) {
+				if (row.get(i).getText().equals(register)) {
+					cont = i + 1;
+					break;
+				}
 			}
+			return cont;
+		} catch (Exception e) {
+			throw new Exception("Não foi possível encontrar a linha da tabela: \n");
 		}
-		return cont;
+		
 	}
 
 	public WebElement ElementTable(String register, String nameAccount, String idTable, String nameColumnAction,
 			String nameStep) throws Exception{
-		int idColumn = getColumn(register, idTable);
-		int idRow = getRow(nameAccount, idColumn, idTable);
-		int idColumnButton = getColumn(nameColumnAction, idTable);
-		return updateAccountMap.inputTable(idColumnButton, idRow, idTable);
+		
+		try {
+			int idColumn = getColumn(register, idTable);
+			int idRow = getRow(nameAccount, idColumn, idTable);
+			int idColumnButton = getColumn(nameColumnAction, idTable);
+			return updateAccountMap.inputTable(idColumnButton, idRow, idTable);
+		} catch (Exception e) {
+			throw new Exception("Não foi possível retornar o elemento tabela: \n");
+		}
+		
+		
+		
 	}
 
 	public void clickElementTable(String register, String nameAccount, String idTable, String nameColumnAction,
 			String nameStep) throws Exception {
 		WebElement elementButton = ElementTable(register, nameAccount, idTable, nameColumnAction, nameStep);
 		WebElement tableButton = elementButton.findElement(By.xpath(updateAccountMap.elementTableClick));
-		GetScreenShoot.getEvidenceElement(nameStep, elementButton);
-		tableButton.click();
+		try {
+			
+			GetScreenShoot.getEvidenceElement(nameStep, elementButton);
+			tableButton.click();
+		} catch (Exception e) {
+			throw new Exception("Não foi possível interagir com o elemento da tabela: \n" + tableButton);
+		}
+	
 	}
 }

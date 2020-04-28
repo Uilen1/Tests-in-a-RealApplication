@@ -15,7 +15,7 @@ public class MenuPage extends BasePage {
 			clickLink("Contas ", "clickAccount");
 			clickLink("Adicionar", "ClickAdd");
 		} catch (Exception e) {
-			throw new Exception(e.getMessage());
+			throw new Exception("Erro ao adicionar uma conta: \n" + e.getMessage());
 		}
 	}
 
@@ -24,7 +24,7 @@ public class MenuPage extends BasePage {
 			clickLink("Contas ", "clickAccount");
 			clickLink("Listar", "ClickAdd");
 		} catch (Exception e) {
-			throw new Exception(e.getMessage());
+			throw new Exception("Erro ao listar as contas: \n" + e.getMessage());
 		}
 	}
 
@@ -33,7 +33,7 @@ public class MenuPage extends BasePage {
 			clickLink("Criar Movimentação", "clickMovementAccount");
 
 		} catch (Exception e) {
-			throw new Exception(e.getMessage());
+			throw new Exception("Erro ao movimentar a conta: \n" + e.getMessage());
 		}
 
 	}
@@ -43,7 +43,7 @@ public class MenuPage extends BasePage {
 			clickLink("Resumo Mensal", "clickMonthlyResume");
 
 		} catch (Exception e) {
-			throw new Exception(e.getMessage());
+			throw new Exception("Erro no resumo mensal da conta: \n" + e.getMessage());
 		}
 	}
 
@@ -53,9 +53,8 @@ public class MenuPage extends BasePage {
 		WebElement element = menuMap.elementLink(name);
 
 		try {
-			element.click();
 			GetScreenShoot.getEvidenceElement(nameStep, element);
-
+			element.click();
 		} catch (Exception e) {
 			throw new Exception("Não foi possível interagir com o elemento: " + element + "\n");
 		}

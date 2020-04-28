@@ -68,6 +68,8 @@ public class BaseTest {
 		data.setData(Properties.RESULT_TEST, (String) excelData.get("Test"), "Status");
 		data.setBackup();
 		evidenceCount = 0;
+		System.out.println("\n"+Constants.RODAPE);
+
 		if (CLOSE_BROWNSER) {
 			killDriver();
 		}

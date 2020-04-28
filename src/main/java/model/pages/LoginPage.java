@@ -23,7 +23,7 @@ public class LoginPage extends BasePage {
 			write("senha", SENHA, "writePassword");
 			clickButton("Entrar", "enter");
 		} catch (Exception e) {
-			throw new Exception(e.getMessage());
+			throw new Exception("Erro ao realizar o login: \n" + e.getMessage());
 		}
 
 	}

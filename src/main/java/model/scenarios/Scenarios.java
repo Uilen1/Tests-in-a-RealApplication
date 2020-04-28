@@ -2,12 +2,14 @@ package model.scenarios;
 
 import java.util.List;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
 import model.core.BaseTest;
+import model.core.Constants;
 import model.core.Properties;
 import model.pages.InsertAccountPage;
 import model.pages.MovementPage;
@@ -31,6 +33,12 @@ public class Scenarios extends BaseTest {
 	public static List<Object> parametersToTest() throws Exception {
 		return loadData();
 	}
+	
+	@Before
+	public void beforeTest() {
+		System.out.println(Constants.CABECALHO);
+		System.out.println(Constants.DIRETORIO_RAIZ);
+	}
 
 	@Test
 	public void Test() throws Exception {
@@ -41,11 +49,13 @@ public class Scenarios extends BaseTest {
 					(String) excelData.get("vNameAccount"));
 			movement.toCreateMovement((String) excelData.get("vCreateMovement"));
 			resumePage.deleteMovementAccount();
+			
 		} catch (Exception e) {
 			Properties.RESULT_TEST = e.getMessage();
 			if (Properties.RESULT_TEST != "" || Properties.RESULT_TEST != null) {
 				Properties.RESULT_TEST = "Failed";
 				System.out.println("[RESULT] = FAILED! \n");
+				System.out.println(e.getMessage());
 				throw new Exception(e.getMessage());
 			}
 
@@ -57,5 +67,11 @@ public class Scenarios extends BaseTest {
 		}
 
 	}
+	
+//	@After
+//	public void afterTest() {
+//		System.out.println("\n"+Constants.RODAPE);
+//	}
+	
 
 }

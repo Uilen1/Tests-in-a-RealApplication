@@ -22,7 +22,7 @@ public class InsertAccountPage extends BasePage {
 			assertEquals("Conta adicionada com sucesso!", utils.getAlertText("alert alert-success", "alertMessage"));
 
 		} catch (Exception e) {
-			throw new Exception(e.getMessage());
+			throw new Exception("Erro ao inserir uma conta: \n" + e.getMessage());
 		}
 
 	}
@@ -37,7 +37,7 @@ public class InsertAccountPage extends BasePage {
 			assertEquals("Já existe uma conta com esse nome!", getAlertText("alert alert-danger", "alertMessage"));
 
 		} catch (Exception e) {
-			throw new Exception(e.getMessage());
+			throw new Exception("Erro ao checar o alerta: \n" + e.getMessage());
 		}
 	}
 
@@ -95,11 +95,11 @@ public class InsertAccountPage extends BasePage {
 		WebElement element = insertAccountMap.elementAlert(classAlert);
 		try {
 			GetScreenShoot.getEvidenceElement(nameStep, element);
+			return element.getText();
 
 		} catch (Exception e) {
 			throw new Exception("Não foi possível interagir com o elemento: " + element + "\n");
 		}
-		return element.getText();
 
 	}
 

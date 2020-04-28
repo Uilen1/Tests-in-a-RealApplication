@@ -38,8 +38,7 @@ public class MovementPage extends BasePage{
 			clickButton("Salvar", "saveMovement");
 			assertEquals("Movimentação adicionada com sucesso!",getAlertText("alert alert-success","alertMessage"));
 		} catch (Exception e) {
-			System.out.println("Não foi possível interagir com o elemento: \n");
-			throw new Exception(e.getMessage());
+			throw new Exception("Erro ao movimentar a conta: \n" + e.getMessage());
 		}
 	}
 	
