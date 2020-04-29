@@ -4,6 +4,6 @@ public class Constants {
 	
 	public static String CABECALHO = "======================================== RUN_TEST ========================================\n\n";
 	public static String RODAPE = "======================================== END_TEST ========================================\n\n";
-	public static String DIRETORIO_RAIZ = System.getProperty("user.dir");
+	public static String DIRETORIO_RAIZ = "[PROJECT_DIRECTORY] - "+System.getProperty("user.dir");
 
 }

@@ -1,6 +1,6 @@
 package model.core;
 
-import model.utilities.enumDriver;
+import model.utilities.EnumDriver;
 
 public class Properties {
 
@@ -12,6 +12,6 @@ public class Properties {
 
 	public static boolean CLOSE_BROWNSER = true;
 
-	public static enumDriver brownser = enumDriver.CHROME;
+	public static EnumDriver brownser = EnumDriver.CHROME;
 
 }

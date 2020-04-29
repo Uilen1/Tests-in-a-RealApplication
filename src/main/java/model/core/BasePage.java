@@ -3,16 +3,11 @@ package model.core;
 import static model.core.DriverFactory.driver;
 import static model.core.DriverFactory.getDriver;
 
-import java.awt.Toolkit;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
-import com.sun.jna.platform.win32.GDI32;
-import com.sun.jna.platform.win32.WinDef;
 
 import model.utilities.Utils;
 
@@ -21,7 +16,8 @@ public class BasePage {
 	protected static Utils utils;
 	protected static String EMAIL = "uilenlelles@hotmail.com";
 	protected static String SENHA = "72598757*";
-
+	protected static WebDriverWait wait = new WebDriverWait(DriverFactory.getDriver(), 5);
+	
 	public BasePage() {
 		utils = new Utils();
 	}
@@ -56,6 +52,11 @@ public class BasePage {
 		return js.executeScript(cmd, params);
 	}
 
+	public void isDisplayed(WebElement element) {
+		wait.until(ExpectedConditions.visibilityOf(element));
+	}
+	
+	
 	public static Boolean isPresent(WebElement element) {
 
 		switch (getLocatorFromWebElement(element)) {
@@ -89,19 +90,6 @@ public class BasePage {
 	public static String getValueFromWebElement(WebElement element) {
 		String[] content = element.toString().split("->")[1].replaceFirst("(?s)(.*)\\]", "$1" + "").trim().split(": ");
 		return content[1];
-	}
-
-	public static double getScreenScale() {
-		WinDef.HDC hdc = GDI32.INSTANCE.CreateCompatibleDC(null);
-		if (hdc != null) {
-			float actual = GDI32.INSTANCE.GetDeviceCaps(hdc, 10 /* VERTRES */);
-			float logical = GDI32.INSTANCE.GetDeviceCaps(hdc, 117 /* DESKTOPVERTRES */);
-			GDI32.INSTANCE.DeleteDC(hdc);
-			if (logical != 0 && logical / actual >= 1) {
-				return logical / actual;
-			}
-		}
-		return (Toolkit.getDefaultToolkit().getScreenResolution() / 96.0f);
 	}
 
 }

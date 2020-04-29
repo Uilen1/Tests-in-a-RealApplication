@@ -66,12 +66,6 @@ public class Scenarios extends BaseTest {
 			}
 		}
 
-	}
-	
-//	@After
-//	public void afterTest() {
-//		System.out.println("\n"+Constants.RODAPE);
-//	}
-	
+	}	
 
 }

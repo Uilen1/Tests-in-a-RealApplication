@@ -3,7 +3,6 @@ package model.core;
 import static model.core.DriverFactory.killDriver;
 import static model.core.Properties.CLOSE_BROWNSER;
 
-import java.awt.Toolkit;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -15,20 +14,17 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.rules.TestName;
 
-import com.sun.jna.platform.win32.GDI32;
-import com.sun.jna.platform.win32.WinDef;
-
 import model.pages.LoginPage;
 import model.utilities.excel.DataDictionary;
 import model.utilities.excel.GlobalData;
 
 public class BaseTest {
 
-	protected static SimpleDateFormat sdf = new SimpleDateFormat("dd_MM_yyyy--HH_mm_ss SSS");
-	protected static Date timeStamps;
+	public static String evidencePath;
+	public static int evidenceCount;
+	public static SimpleDateFormat sdf = new SimpleDateFormat("dd_MM_yyyy--HH_mm_ss SSS");
+	public static Date timeStamps;
 	protected static String executionTestName;
-	protected static String evidencePath;
-	protected static int evidenceCount;
 	protected static String[] className;
 	protected static String tableName;
 	protected static String folderName;
@@ -82,19 +78,6 @@ public class BaseTest {
 		tableName = className[className.length - 2];
 		data = new GlobalData(tableName, folderName);
 		return data.getData();
-	}
-
-	public static double getScreenScale() throws Exception {
-		WinDef.HDC hdc = GDI32.INSTANCE.CreateCompatibleDC(null);
-		if (hdc != null) {
-			float actual = GDI32.INSTANCE.GetDeviceCaps(hdc, 10 /* VERTRES */);
-			float logical = GDI32.INSTANCE.GetDeviceCaps(hdc, 117 /* DESKTOPVERTRES */);
-			GDI32.INSTANCE.DeleteDC(hdc);
-			if (logical != 0 && logical / actual >= 1) {
-				return logical / actual;
-			}
-		}
-		return (Toolkit.getDefaultToolkit().getScreenResolution() / 96.0f);
 	}
 
 }
