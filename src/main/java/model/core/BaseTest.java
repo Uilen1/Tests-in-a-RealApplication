@@ -3,6 +3,7 @@ package model.core;
 import static model.core.DriverFactory.killDriver;
 import static model.core.Properties.CLOSE_BROWNSER;
 
+import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -26,8 +27,8 @@ public class BaseTest {
 	public static Date timeStamps;
 	protected static String executionTestName;
 	protected static String[] className;
-	protected static String tableName;
-	protected static String folderName;
+	protected static String suiteName;
+	protected static String classTestName;
 	protected static HashMap<String, Object> excelData = new HashMap<String, Object>();
 	protected static GlobalData data;
 	private LoginPage login;
@@ -51,33 +52,49 @@ public class BaseTest {
 
 	@Before
 	public void before() throws Exception {
-		System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "//driver//chromedriver.exe");
-		evidencePath = System.getProperty("user.dir") + "/outPut/" + sdf.format(getTimeStamps());
-		Properties.RESULT_TEST = "";
-		data.setData(sdf.format(new Date()), (String) excelData.get("Test"), "vOutData");
-		this.login = new LoginPage();
-		login.setLogin();
+		try {
+			System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "//driver//chromedriver.exe");
+			evidencePath = System.getProperty("user.dir") +File.separator+ "outPut" +File.separator+ suiteName+File.separator+ classTestName +File.separator+ executionTestName+File.separator+"evidenceScrenShoot" +File.separator+ sdf.format(getTimeStamps());
+			Properties.RESULT_TEST = "";
+			data.setData(sdf.format(new Date()), (String) excelData.get("Test"), "vOutData");
+			this.login = new LoginPage();
+			login.setLogin();
+		} catch (Exception e) {
+			throw new Exception("Erro no método Before! " + executionTestName);
+		}
+		
 	}
 
 	@After
-	public void afterTest() throws IOException, InterruptedException {
-		data.setData(Properties.RESULT_TEST, (String) excelData.get("Test"), "Status");
-		data.setBackup();
-		evidenceCount = 0;
-		System.out.println("\n"+Constants.RODAPE);
+	public void afterTest() throws IOException, InterruptedException,Exception {
+		
+		try {
+			data.setData(Properties.RESULT_TEST, (String) excelData.get("Test"), "Status");
+			data.setBackup();
+			evidenceCount = 0;
+			System.out.println("\n"+Constants.RODAPE);
 
-		if (CLOSE_BROWNSER) {
-			killDriver();
+			if (CLOSE_BROWNSER) {
+				killDriver();
+			}
+		} catch (Exception e) {
+			throw new Exception("Erro no método AfterTest! " + executionTestName);
 		}
+		
 
 	}
 
 	public static List<Object> loadData() throws Exception {
-		className = new Throwable().getStackTrace()[1].getClassName().toString().split("\\W");
-		folderName = className[className.length - 1];
-		tableName = className[className.length - 2];
-		data = new GlobalData(tableName, folderName);
-		return data.getData();
+		try {
+			className = new Throwable().getStackTrace()[1].getClassName().toString().split("\\W");
+			classTestName = className[className.length - 1];
+			suiteName = className[className.length - 2];
+			data = new GlobalData(suiteName, classTestName);
+			return data.getData();
+		} catch (Exception e) {
+			throw new Exception("Erro no método loadTest! ");
+		}
+		
 	}
 
 }

@@ -16,7 +16,6 @@ public class BasePage {
 	protected static Utils utils;
 	protected static String EMAIL = "uilenlelles@hotmail.com";
 	protected static String SENHA = "72598757*";
-	protected static WebDriverWait wait = new WebDriverWait(DriverFactory.getDriver(), 5);
 	
 	public BasePage() {
 		utils = new Utils();
@@ -52,11 +51,6 @@ public class BasePage {
 		return js.executeScript(cmd, params);
 	}
 
-	public void isDisplayed(WebElement element) {
-		wait.until(ExpectedConditions.visibilityOf(element));
-	}
-	
-	
 	public static Boolean isPresent(WebElement element) {
 
 		switch (getLocatorFromWebElement(element)) {

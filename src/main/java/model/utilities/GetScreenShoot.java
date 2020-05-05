@@ -25,8 +25,7 @@ public class GetScreenShoot{
 				TakesScreenshot takeSs = (TakesScreenshot) getDriver();
 				File file = takeSs.getScreenshotAs(OutputType.FILE);
 				FileUtils.copyFile(file,
-						new File(System.getProperty("user.dir") + "" + File.separator + "outPut" + File.separator + ""
-								+ BaseTest.sdf.format(BaseTest.timeStamps) + "" + File.separator + "" + "00" + BaseTest.evidenceCount + "_"
+						new File(BaseTest.evidencePath + File.separator + "00" + BaseTest.evidenceCount + "_"
 								+ nameTest + ".png"));
 				Higthlight.higthlight(nameTest, element);
 				BaseTest.evidenceCount++;
