@@ -205,5 +205,11 @@ public class Utils {
 		return sdf.format(date);
 
 	}
+	
+	public String obtainedDateWithHoursFormated(Date date) throws Exception{
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+		return sdf.format(date);
+
+	}
 
 }

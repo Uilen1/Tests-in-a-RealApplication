@@ -33,7 +33,7 @@ public class GetScreenShoot{
 
 		} catch (Exception e) {
 
-			System.out.println("Error in get evidence: " + e.getMessage());
+			throw new Exception("Error in get evidence: " + e.getMessage());
 		}
 	}
 
