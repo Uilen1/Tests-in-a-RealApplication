@@ -34,7 +34,8 @@ import org.openxmlformats.schemas.wordprocessingml.x2006.main.STTblWidth;
 public class CreateFileDoc {
 
 	public static void createEvidenceInDoc(String suiteName, String classTestName, String executionTestName,
-			String timeStamps, String result, String date) throws InvalidFormatException, IOException {
+			String timeStamps, String executionTime, String result, String date)
+			throws InvalidFormatException, IOException {
 		try {
 
 			File dir = new File(System.getProperty("user.dir") + File.separator + "outPut");
@@ -58,8 +59,8 @@ public class CreateFileDoc {
 			});
 
 			File folder = new File(files[0].getAbsolutePath() + File.separator + classTestName + File.separator
-					+ executionTestName +File.separator+ "evidencesDoc" +File.separator+ timeStamps);
-			if(!folder.isDirectory()) {
+					+ executionTestName + File.separator + "evidencesDoc" + File.separator + timeStamps);
+			if (!folder.isDirectory()) {
 				folder.mkdirs();
 			}
 			dir = new File(files[0].toString() + File.separator + classTestName + File.separator + executionTestName
@@ -92,47 +93,96 @@ public class CreateFileDoc {
 			paragraph.setBorderRight(Borders.BASIC_BLACK_DASHES);
 			paragraph.setBorderTop(Borders.BASIC_BLACK_DASHES);
 
-			XWPFRun run = paragraph.createRun();
-			run.setFontFamily("Arial");
-			run.setFontSize(11);
-			run.setText("Caso de teste: " + executionTestName);
+			XWPFRun run0 = paragraph.createRun();
+			run0.setFontFamily("Arial");
+			run0.setFontSize(11);
+			run0.setBold(true);
+			run0.setText("Caso de teste: ");
 
-			XWPFRun run2 = paragraph.createRun();
-			run2.setFontSize(11);
-			run2.setFontFamily("Arial");
-			run2.addBreak();
-			run2.setText("Status: " + result);
+			XWPFRun run_0 = paragraph.createRun();
+			run_0.setFontFamily("Arial");
+			run_0.setFontSize(11);
+			run_0.setBold(false);
+			run_0.setText(executionTestName);
+
+			XWPFRun run1 = paragraph.createRun();
+			run1.setFontSize(11);
+			run1.setFontFamily("Arial");
+			run1.addBreak();
+			run1.setBold(true);
+			run1.setText("Status: ");
+
+			XWPFRun run_1 = paragraph.createRun();
+			run_1.setFontFamily("Arial");
+			run_1.setFontSize(11);
+			run_1.setBold(false);
+			run_1.setColor(result.toString().trim() == "Passed" ? "32CD32" : "FF0000");
+			run_1.setText(result);
+
+			XWPFRun run3 = paragraph.createRun();
+			run3.setFontSize(11);
+			run3.setFontFamily("Arial");
+			run3.addBreak();
+			run3.setBold(true);
+			run3.setText("Data e hora da execução: ");
+
+			XWPFRun run_3 = paragraph.createRun();
+			run_3.setFontFamily("Arial");
+			run_3.setFontSize(11);
+			run_3.setBold(false);
+			run_3.setText(date);
 
 			XWPFRun run4 = paragraph.createRun();
 			run4.setFontSize(11);
 			run4.setFontFamily("Arial");
 			run4.addBreak();
-			run4.setText("Data e hora da execução: " + date);
+			run4.setBold(true);
+			run4.setText("Duração da execução: ");
 
-			XWPFRun run5 = paragraph.createRun();
-			run5.setFontSize(11);
-			run5.setFontFamily("Arial");
-			run5.addBreak();
-			run5.setText("Duração da execução: ???");
+			XWPFRun run_4 = paragraph.createRun();
+			run_4.setFontFamily("Arial");
+			run_4.setFontSize(11);
+			run_4.setBold(false);
+			run_4.setText(executionTime);
 
-			XWPFRun prRun1 = paragraph.createRun();
-			prRun1.setFontFamily("Arial");
-			prRun1.setFontSize(11);
-			prRun1.addBreak();
-			prRun1.setBold(false);
-			prRun1.setText("Result: ");
+			XWPFRun Run5 = paragraph.createRun();
+			Run5.setFontFamily("Arial");
+			Run5.setFontSize(11);
+			Run5.addBreak();
+			Run5.setBold(true);
+			Run5.setText("Result: ");
 
-			XWPFRun prRun2 = paragraph.createRun();
-			prRun2.setFontFamily("Arial");
-			prRun2.setFontSize(11);
-			prRun2.setBold(false);
-			prRun2.addBreak();
-			prRun2.setText(result.length() > 300 ? result.substring(0, 300) + "[...]" : result);
+			XWPFRun run_5 = paragraph.createRun();
+			run_5.setFontFamily("Arial");
+			run_5.setFontSize(11);
+			run_5.setBold(false);
+			if (result.length() > 76) {
+				run_5.addBreak();
+			}
+			run_5.setText(result.length() > 300 ? result.substring(0, 300) + "[...]" : result);
 
 			XWPFParagraph paragraph1 = document.createParagraph();
 
 			paragraph1.setSpacingAfterLines(1);
+			paragraph1.setAlignment(ParagraphAlignment.CENTER);
+			XWPFRun runResult = paragraph1.createRun();
+
 			InputStream pic = null;
+			File imageResultPassed = new File(
+					System.getProperty("user.dir") + File.separator + "imagens" + File.separator + "aprovado.png");
+			File imageResultFailed = new File(
+					System.getProperty("user.dir") + File.separator + "imagens" + File.separator + "reprovado.png");
+
+			runResult.addBreak();
+			runResult.addBreak();
+			runResult.addPicture(
+					new FileInputStream(result.toString().trim() == "Passed" ? imageResultPassed : imageResultFailed),
+					XWPFDocument.PICTURE_TYPE_PNG, System.getProperty("user.dir") + File.separator + "imagens",
+					Units.toEMU(400), Units.toEMU(400));
+
+			runResult.addBreak();
+			runResult.addBreak();
+
 			XWPFParagraph paragraphOne = document.createParagraph();
 			XWPFRun paragraphOneRunOne = paragraphOne.createRun();
 			paragraphOneRunOne.addBreak();
@@ -143,12 +193,28 @@ public class CreateFileDoc {
 				} catch (FileNotFoundException e1) {
 					e1.printStackTrace();
 				}
-				XWPFParagraph paragraphFive = document.createParagraph();
-				paragraphFive.setAlignment(ParagraphAlignment.CENTER);
-				XWPFRun paragraphFiveRunOne = paragraphFive.createRun();
+
+				XWPFParagraph paragraphNameImage = document.createParagraph();
+				XWPFRun runNameImage = paragraphNameImage.createRun();
+
+				XWPFParagraph paragraphImage = document.createParagraph();
+				paragraphImage.setAlignment(ParagraphAlignment.CENTER);
+				XWPFRun paragraphImageRunOne = paragraphImage.createRun();
+
 				try {
-					paragraphFiveRunOne.addPicture(new FileInputStream(file), XWPFDocument.PICTURE_TYPE_PNG,
+					String[] header = file.getName().toString().split("\\W");
+
+					runNameImage.setFontFamily("Arial");
+					runNameImage.setFontSize(10);
+					runNameImage.setBold(true);
+					runNameImage.setText(header[0]);
+					runNameImage.addBreak();
+
+					paragraphImageRunOne.addPicture(new FileInputStream(file), XWPFDocument.PICTURE_TYPE_PNG,
 							file.getAbsolutePath(), Units.toEMU(446), Units.toEMU(257));
+					paragraphImageRunOne.addBreak();
+					paragraphImageRunOne.addBreak();
+					paragraphImageRunOne.addBreak();
 				} catch (Exception e) {
 					e.printStackTrace();
 				} finally {
@@ -158,7 +224,7 @@ public class CreateFileDoc {
 			FileOutputStream outStream = null;
 			try {
 				outStream = new FileOutputStream(
-						folder.getAbsolutePath() +File.separator+ executionTestName + ".docx");
+						folder.getAbsolutePath() + File.separator + executionTestName + ".docx");
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			}
@@ -197,7 +263,7 @@ public class CreateFileDoc {
 
 				run11 = paragraph11.createRun();
 				run11.setBold(false);
-				run11.setText("Automação");
+				run11.setText("Muly Automação");
 
 				XWPFTableCell cell2 = row.createCell();
 				CTTblWidth tblWidth2 = cell2.getCTTc().addNewTcPr().addNewTcW();

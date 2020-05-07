@@ -27,6 +27,8 @@ public class BaseTest {
 	public static int evidenceCount;
 	public static SimpleDateFormat sdf = new SimpleDateFormat("dd_MM_yyyy--HH_mm_ss SSS");
 	public static Date timeStamps;
+	protected long startTest;
+	protected long finishTest;
 	protected static String executionTestName;
 	protected static String[] className;
 	protected static String suiteName;
@@ -60,6 +62,7 @@ public class BaseTest {
 			evidencePath = System.getProperty("user.dir") +File.separator+ "outPut" +File.separator+ suiteName+File.separator+ classTestName +File.separator+ executionTestName+File.separator+"evidenceScreenShoot" +File.separator+ sdf.format(getTimeStamps());
 			Properties.RESULT_TEST = "";
 			data.setData(sdf.format(new Date()), (String) excelData.get("Test"), "vOutData");
+			startTest = System.currentTimeMillis();
 			this.login = new LoginPage();
 			login.setLogin();
 		} catch (Exception e) {
@@ -74,7 +77,10 @@ public class BaseTest {
 		try {
 			data.setData(Properties.RESULT_TEST, (String) excelData.get("Test"), "Status");
 			data.setBackup();
-			CreateFileDoc.createEvidenceInDoc(suiteName, classTestName, executionTestName, sdf.format(timeStamps), Properties.RESULT_TEST, utils.obtainedDateWithHoursFormated(new Date()));
+			finishTest = System.currentTimeMillis();
+			long total = finishTest - startTest;
+			String executionTime = String.format("%02d:%02d:%02d", total/3600000,(total/60000)%60,(total/1000)%60);
+			CreateFileDoc.createEvidenceInDoc(suiteName, classTestName, executionTestName, sdf.format(timeStamps), executionTime,Properties.RESULT_TEST, utils.obtainedDateWithHoursFormated(new Date()));
 			evidenceCount = 0;
 			System.out.println("\n"+Constants.RODAPE);
 
