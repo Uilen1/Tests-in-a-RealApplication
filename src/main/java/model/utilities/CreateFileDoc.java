@@ -18,6 +18,7 @@ import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.util.Units;
 import org.apache.poi.xwpf.model.XWPFHeaderFooterPolicy;
 import org.apache.poi.xwpf.usermodel.Borders;
+import org.apache.poi.xwpf.usermodel.BreakType;
 import org.apache.poi.xwpf.usermodel.ParagraphAlignment;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFFooter;
@@ -86,7 +87,7 @@ public class CreateFileDoc {
 
 			XWPFDocument document = new XWPFDocument(OPCPackage.open(System.getProperty("user.dir") + File.separator
 					+ "outPut" + File.separator + "TemplateEvidencia.docx"));
-			// criar paragrafo
+			/***** PRIMEIRA_PÁGINA *****/
 			XWPFParagraph paragraph = document.createParagraph();
 			paragraph.setBorderBottom(Borders.BASIC_BLACK_DASHES);
 			paragraph.setBorderLeft(Borders.BASIC_BLACK_DASHES);
@@ -175,13 +176,16 @@ public class CreateFileDoc {
 
 			runResult.addBreak();
 			runResult.addBreak();
+			runResult.addBreak();
+			
+			/***** CONTEUDO_ARQUIVO *****/
+			
 			runResult.addPicture(
 					new FileInputStream(result.toString().trim() == "Passed" ? imageResultPassed : imageResultFailed),
 					XWPFDocument.PICTURE_TYPE_PNG, System.getProperty("user.dir") + File.separator + "imagens",
-					Units.toEMU(400), Units.toEMU(400));
+					Units.pixelToEMU(350), Units.pixelToEMU(350));
 
-			runResult.addBreak();
-			runResult.addBreak();
+			runResult.addBreak(BreakType.PAGE);
 
 			XWPFParagraph paragraphOne = document.createParagraph();
 			XWPFRun paragraphOneRunOne = paragraphOne.createRun();
@@ -239,7 +243,6 @@ public class CreateFileDoc {
 				paragraph11 = footer.getParagraphArray(0);
 
 				paragraph11 = footer.createParagraph();
-
 				XmlCursor cursor = paragraph11.getCTP().newCursor();
 				XWPFTable table = footer.insertNewTbl(cursor);
 
