@@ -6,7 +6,7 @@ import org.openqa.selenium.WebElement;
 
 import model.core.BasePage;
 import model.map.InsertAccountMap;
-import model.utilities.GetScreenShoot;
+import model.utilities.screenshoot.GetScreenShoot;
 
 public class InsertAccountPage extends BasePage {
 

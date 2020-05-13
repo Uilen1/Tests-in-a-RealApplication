@@ -9,7 +9,7 @@ import org.openqa.selenium.WebElement;
 
 import model.core.BasePage;
 import model.map.UpdateAccountMap;
-import model.utilities.GetScreenShoot;
+import model.utilities.screenshoot.GetScreenShoot;
 
 public class UpdateAccountPage extends BasePage {
 

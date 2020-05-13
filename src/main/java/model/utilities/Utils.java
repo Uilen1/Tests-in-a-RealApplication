@@ -13,6 +13,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 
 import model.map.mapComponentes;
+import model.utilities.screenshoot.GetScreenShoot;
 
 public class Utils {
 

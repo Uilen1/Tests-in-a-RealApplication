@@ -11,7 +11,7 @@ import org.openqa.selenium.support.ui.Select;
 
 import model.core.BasePage;
 import model.map.ResumeMap;
-import model.utilities.GetScreenShoot;
+import model.utilities.screenshoot.GetScreenShoot;
 
 public class ResumePage extends BasePage {
 

@@ -1,4 +1,4 @@
-package model.utilities;
+package model.utilities.screenshoot;
 
 import static model.core.DriverFactory.getDriver;
 

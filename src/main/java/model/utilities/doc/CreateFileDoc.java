@@ -1,4 +1,4 @@
-package model.utilities;
+package model.utilities.doc;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -178,14 +178,14 @@ public class CreateFileDoc {
 			runResult.addBreak();
 			runResult.addBreak();
 			
-			/***** CONTEUDO_ARQUIVO *****/
-			
 			runResult.addPicture(
 					new FileInputStream(result.toString().trim() == "Passed" ? imageResultPassed : imageResultFailed),
 					XWPFDocument.PICTURE_TYPE_PNG, System.getProperty("user.dir") + File.separator + "imagens",
 					Units.pixelToEMU(350), Units.pixelToEMU(350));
 
 			runResult.addBreak(BreakType.PAGE);
+			
+			/***** CONTEUDO_ARQUIVO *****/
 
 			XWPFParagraph paragraphOne = document.createParagraph();
 			XWPFRun paragraphOneRunOne = paragraphOne.createRun();
@@ -232,6 +232,9 @@ public class CreateFileDoc {
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			}
+			
+			/***** RODAPÉ *****/
+
 			try {
 
 				XWPFParagraph paragraph11 = document.createParagraph();

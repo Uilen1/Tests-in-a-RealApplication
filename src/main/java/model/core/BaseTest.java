@@ -16,8 +16,8 @@ import org.junit.Rule;
 import org.junit.rules.TestName;
 
 import model.pages.LoginPage;
-import model.utilities.CreateFileDoc;
 import model.utilities.Utils;
+import model.utilities.doc.CreateFileDoc;
 import model.utilities.excel.DataDictionary;
 import model.utilities.excel.GlobalData;
 
@@ -61,7 +61,7 @@ public class BaseTest {
 			System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "//driver//chromedriver.exe");
 			evidencePath = System.getProperty("user.dir") +File.separator+ "outPut" +File.separator+ suiteName+File.separator+ classTestName +File.separator+ executionTestName+File.separator+"evidenceScreenShoot" +File.separator+ sdf.format(getTimeStamps());
 			Properties.RESULT_TEST = "";
-			data.setData(sdf.format(new Date()), (String) excelData.get("Test"), "vOutData");
+			data.setData(utils.obtainedDateFormated(new Date()), (String) excelData.get("Test"), "vOutData");
 			startTest = System.currentTimeMillis();
 			this.login = new LoginPage();
 			login.setLogin();

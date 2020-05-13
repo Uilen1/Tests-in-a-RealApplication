@@ -4,7 +4,7 @@ import org.openqa.selenium.WebElement;
 
 import model.core.BasePage;
 import model.map.MenuMap;
-import model.utilities.GetScreenShoot;
+import model.utilities.screenshoot.GetScreenShoot;
 
 public class MenuPage extends BasePage {
 

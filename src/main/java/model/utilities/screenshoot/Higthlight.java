@@ -1,4 +1,4 @@
-package model.utilities;
+package model.utilities.screenshoot;
 
 import static model.core.DriverFactory.driver;
 import static model.core.Properties.DISABLE_ELEMENT_HIGHLIGHTS;
@@ -18,6 +18,7 @@ import org.openqa.selenium.WebElement;
 import model.core.BasePage;
 import model.core.BaseTest;
 import model.core.Properties;
+import model.utilities.Scale;
 
 public class Higthlight {
 	

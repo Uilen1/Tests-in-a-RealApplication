@@ -1,10 +1,13 @@
 package model.pages;
 
+import static model.core.Constants.EMAIL;
+import static model.core.Constants.SENHA;
+
 import org.openqa.selenium.WebElement;
 
 import model.core.BasePage;
 import model.map.LoginMap;
-import model.utilities.GetScreenShoot;
+import model.utilities.screenshoot.GetScreenShoot;
 
 public class LoginPage extends BasePage {
 

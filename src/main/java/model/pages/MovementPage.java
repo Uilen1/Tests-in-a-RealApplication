@@ -9,7 +9,7 @@ import org.openqa.selenium.support.ui.Select;
 
 import model.core.BasePage;
 import model.map.MovementMap;
-import model.utilities.GetScreenShoot;
+import model.utilities.screenshoot.GetScreenShoot;
 
 public class MovementPage extends BasePage{
 
