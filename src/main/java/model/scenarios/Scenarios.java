@@ -44,12 +44,13 @@ public class Scenarios extends BaseTest {
 	public void Test() throws Exception {
 		try {
 			insertAccount.insertAccount((String) excelData.get("vNameAccount"));
-//			insertAccount.checkExceptions((String) excelData.get("vNameAccount"));
-//			updateAccount.updateAccount((String) excelData.get("vUpdateAccount"),
-//					(String) excelData.get("vNameAccount"));
-//			movement.toCreateMovement((String) excelData.get("vCreateMovement"));
-//			resumePage.deleteMovementAccount();
 			
+			  insertAccount.checkExceptions((String) excelData.get("vNameAccount")); 
+			  updateAccount.updateAccount((String) excelData.get("vUpdateAccount"), 
+			  (String) excelData.get("vNameAccount")); 
+			  movement.toCreateMovement((String) excelData.get("vCreateMovement")); 
+			  resumePage.deleteMovementAccount();
+			 		
 		} catch (Exception e) {
 			Properties.RESULT_TEST = e.getMessage();
 			if (Properties.RESULT_TEST != "" || Properties.RESULT_TEST != null) {
