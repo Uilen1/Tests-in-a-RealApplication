@@ -10,14 +10,17 @@ import java.math.BigInteger;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
 
 import org.apache.poi.util.Units;
+import org.apache.poi.wp.usermodel.HeaderFooterType;
 import org.apache.poi.xwpf.model.XWPFHeaderFooterPolicy;
 import org.apache.poi.xwpf.usermodel.Borders;
 import org.apache.poi.xwpf.usermodel.BreakType;
 import org.apache.poi.xwpf.usermodel.ParagraphAlignment;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFFooter;
+import org.apache.poi.xwpf.usermodel.XWPFHeader;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.apache.poi.xwpf.usermodel.XWPFRun;
 import org.apache.poi.xwpf.usermodel.XWPFTable;
@@ -25,6 +28,9 @@ import org.apache.poi.xwpf.usermodel.XWPFTableCell;
 import org.apache.poi.xwpf.usermodel.XWPFTableRow;
 import org.apache.xmlbeans.XmlCursor;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTSectPr;
+import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTTbl;
+import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTTblGrid;
+import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTTblGridCol;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTTblWidth;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.STTblWidth;
 
@@ -56,7 +62,7 @@ public class EvidenceData {
 		XWPFRun run_0 = paragraph.createRun();
 		ConfigurationEvidenceData.setFont(run_0, "Arial", 11, false, executionTestName);
 		run_0.addBreak();
-		
+
 		XWPFRun run1 = paragraph.createRun();
 		ConfigurationEvidenceData.setFont(run1, "Arial", 11, true, "Status: ");
 
@@ -136,17 +142,90 @@ public class EvidenceData {
 
 				paragraphImageRunOne.addPicture(new FileInputStream(file), XWPFDocument.PICTURE_TYPE_PNG,
 						file.getAbsolutePath(), Units.toEMU(446), Units.toEMU(257));
-				if(cont < (files.length-1)) {
+				if (cont < (files.length - 1)) {
 					ConfigurationEvidenceData.addBreaks(paragraphImageRunOne, 3);
 				}
 				cont++;
-				
+
 			} catch (Exception e) {
 				e.printStackTrace();
 			} finally {
 				pic.close();
 			}
 		}
+
+	}
+	
+	public void setDataInHeader(String valueToInsert) throws Exception {
+		try {
+			List<XWPFHeader> hdr = document.getHeaderList();
+			List<XWPFTable> tbl = hdr.get(0).getTables();
+			
+			XWPFTableRow row = tbl.get(0).getRow(0);
+			XWPFTableCell cell2 = row.getCell(2);
+			XWPFParagraph p2 = cell2.getParagraphArray(0);
+			p2.setAlignment(ParagraphAlignment.CENTER);
+			XWPFRun r2 = p2.createRun();
+			ConfigurationEvidenceData.setFont(r2, "Arial", 10, false, valueToInsert);
+		} catch (Exception e) {
+			throw new Exception("Não foi possível inserir um valor no cabeçalho");
+		}
+		
+		
+	}
+
+	public void createHeader(String NameProject, String Date) throws Exception {
+
+		XWPFHeader hdr = document.createHeader(HeaderFooterType.DEFAULT);
+		XWPFTable tbl = hdr.createTable(1, 3);
+		XWPFTable tbl2 = hdr.createTable(1, 1);
+
+		int pad = (int) (.1 * 1440);
+		tbl.setCellMargins(pad, pad, pad, pad);
+		tbl.setWidth((int) (6.5 * 1440));
+		CTTbl ctTbl = tbl.getCTTbl();
+		CTTbl ctTbl2 = tbl2.getCTTbl();
+				
+		ConfigurationEvidenceData.addTableProperties(ctTbl,tbl);
+		ConfigurationEvidenceData.addTableProperties(ctTbl2, tbl2);
+
+		BigInteger w = new BigInteger("3200");
+		CTTblGrid grid = ctTbl.addNewTblGrid();
+		for (int i = 0; i < 3; i++) {
+			CTTblGridCol gridCol = grid.addNewGridCol();
+			gridCol.setW(w);
+		}
+		
+		BigInteger w2 = new BigInteger("9600");
+		CTTblGrid grid2 = ctTbl2.addNewTblGrid();
+		for (int i = 0; i < 3; i++) {
+			CTTblGridCol gridCol2 = grid2.addNewGridCol();
+			gridCol2.setW(w2);
+		}
+
+		// Add paragraphs to the cells of the firt Line
+		XWPFTableRow row = tbl.getRow(0);
+		XWPFTableCell cell = row.getCell(0);
+		XWPFParagraph p = cell.getParagraphArray(0);
+		XWPFRun r = p.createRun();
+		ConfigurationEvidenceData.setFont(r, "Arial", 12, true, NameProject);
+
+		cell = row.getCell(1);
+		p = cell.getParagraphArray(0);
+		r = p.createRun();
+		ConfigurationEvidenceData.setFont(r, "Arial", 12, true, "EVIDÊNCIA DE TESTES");
+
+		cell = row.getCell(2);
+		p = cell.getParagraphArray(0);
+		r = p.createRun();
+		ConfigurationEvidenceData.setFont(r, "Arial", 12, true, Date);
+		
+		// Add paragraphs to the cells of the Second Line
+				XWPFTableRow row2 = tbl2.getRow(0);
+				XWPFTableCell cell2 = row2.getCell(0);
+				XWPFParagraph p2 = cell2.getParagraphArray(0);
+				XWPFRun r2 = p2.createRun();
+				ConfigurationEvidenceData.setFont(r2, "Arial", 12, true, "Sistema: Real Application");
 
 	}
 

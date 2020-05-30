@@ -65,6 +65,7 @@ public class CreateFileDoc {
 
 			evidenceData.createFirstPage();
 			evidenceData.setContentPage(files);
+			evidenceData.setDataInHeader("by: Uilen Helei");
 			evidenceData.createFooter();
 			evidenceData.CreateDocument(folder);
 

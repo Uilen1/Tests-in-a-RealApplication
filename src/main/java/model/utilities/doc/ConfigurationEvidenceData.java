@@ -8,6 +8,11 @@ import org.apache.poi.xwpf.usermodel.Borders;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.apache.poi.xwpf.usermodel.XWPFRun;
+import org.apache.poi.xwpf.usermodel.XWPFTable;
+import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTTbl;
+import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTTblLayoutType;
+import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTTblPr;
+import org.openxmlformats.schemas.wordprocessingml.x2006.main.STTblLayoutType;
 
 public class ConfigurationEvidenceData {
 
@@ -60,6 +65,18 @@ public class ConfigurationEvidenceData {
 					Units.pixelToEMU(350), Units.pixelToEMU(350));
 		} catch (Exception e) {
 			throw new Exception("Erro ao colocar a imagem na evidência");
+		}
+	}
+	
+	public static void addTableProperties(CTTbl ctTbl,XWPFTable tbl) throws Exception{
+		try {
+			ctTbl = tbl.getCTTbl();
+			CTTblPr ctTblPr = ctTbl.addNewTblPr();
+			CTTblLayoutType layoutType = ctTblPr.addNewTblLayout();
+			layoutType.setType(STTblLayoutType.FIXED);
+				
+		} catch (Exception e) {
+			throw new Exception("Erro ao adicionar as propriedades da tabela");
 		}
 	}
 	
