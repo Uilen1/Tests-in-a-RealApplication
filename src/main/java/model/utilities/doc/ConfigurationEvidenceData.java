@@ -12,6 +12,8 @@ import org.apache.poi.xwpf.usermodel.XWPFRun;
 import org.apache.poi.xwpf.usermodel.XWPFTable;
 import org.apache.poi.xwpf.usermodel.XWPFTableCell;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTTbl;
+import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTTblGrid;
+import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTTblGridCol;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTTblLayoutType;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTTblPr;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTTblWidth;
@@ -68,6 +70,26 @@ public class ConfigurationEvidenceData {
 					Units.pixelToEMU(350), Units.pixelToEMU(350));
 		} catch (Exception e) {
 			throw new Exception("Erro ao colocar a imagem na evidência");
+		}
+	}
+	
+	public static void configureTable(CTTbl ctTbl,XWPFTable tbl, int amountColumns, String sizeOfCell) throws Exception{
+		try {
+			
+			ctTbl = tbl.getCTTbl();
+			CTTblPr ctTblPr = ctTbl.addNewTblPr();
+			CTTblLayoutType layoutType = ctTblPr.addNewTblLayout();
+			layoutType.setType(STTblLayoutType.FIXED);
+			
+			BigInteger w = new BigInteger(sizeOfCell);
+			CTTblGrid grid = ctTbl.addNewTblGrid();
+			for (int i = 0; i < amountColumns; i++) {
+				CTTblGridCol gridCol = grid.addNewGridCol();
+				gridCol.setW(w);
+			}
+				
+		} catch (Exception e) {
+			throw new Exception("Erro ao adicionar as propriedades da tabela");
 		}
 	}
 	

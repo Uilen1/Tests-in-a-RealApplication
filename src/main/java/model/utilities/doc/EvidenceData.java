@@ -6,7 +6,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.math.BigInteger;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -29,8 +28,6 @@ import org.apache.poi.xwpf.usermodel.XWPFTableRow;
 import org.apache.xmlbeans.XmlCursor;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTSectPr;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTTbl;
-import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTTblGrid;
-import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTTblGridCol;
 
 public class EvidenceData {
 
@@ -171,7 +168,7 @@ public class EvidenceData {
 
 	}
 
-	public void createHeader(String NameProject, String Date) throws Exception {
+	public void createHeader(String nameProject, String date) throws Exception {
 
 		XWPFHeader hdr = document.createHeader(HeaderFooterType.DEFAULT);
 		XWPFTable tbl = hdr.createTable(1, 3);
@@ -179,33 +176,19 @@ public class EvidenceData {
 
 		int pad = (int) (.1 * 1440);
 		tbl.setCellMargins(pad, pad, pad, pad);
-		tbl.setWidth((int) (6.5 * 1440));
+		tbl2.setCellMargins(pad, pad, pad, pad);
 		CTTbl ctTbl = tbl.getCTTbl();
 		CTTbl ctTbl2 = tbl2.getCTTbl();
 
-		ConfigurationEvidenceData.addTableProperties(ctTbl, tbl);
-		ConfigurationEvidenceData.addTableProperties(ctTbl2, tbl2);
-
-		BigInteger w = new BigInteger("3200");
-		CTTblGrid grid = ctTbl.addNewTblGrid();
-		for (int i = 0; i < 3; i++) {
-			CTTblGridCol gridCol = grid.addNewGridCol();
-			gridCol.setW(w);
-		}
-
-		BigInteger w2 = new BigInteger("9600");
-		CTTblGrid grid2 = ctTbl2.addNewTblGrid();
-		for (int i = 0; i < 3; i++) {
-			CTTblGridCol gridCol2 = grid2.addNewGridCol();
-			gridCol2.setW(w2);
-		}
+		ConfigurationEvidenceData.configureTable(ctTbl, tbl, 3, "3300");
+		ConfigurationEvidenceData.configureTable(ctTbl2, tbl2, 1, "9900");
 
 		// Add paragraphs to the cells of the firt Line
 		XWPFTableRow row = tbl.getRow(0);
 		XWPFTableCell cell = row.getCell(0);
 		XWPFParagraph p = cell.getParagraphArray(0);
 		XWPFRun r = p.createRun();
-		ConfigurationEvidenceData.setFont(r, "Arial", 12, true, NameProject);
+		ConfigurationEvidenceData.setFont(r, "Arial", 12, true, nameProject);
 
 		cell = row.getCell(1);
 		p = cell.getParagraphArray(0);
@@ -215,7 +198,7 @@ public class EvidenceData {
 		cell = row.getCell(2);
 		p = cell.getParagraphArray(0);
 		r = p.createRun();
-		ConfigurationEvidenceData.setFont(r, "Arial", 12, true, Date);
+		ConfigurationEvidenceData.setFont(r, "Arial", 12, true, date);
 
 		// Add paragraphs to the cells of the Second Line
 		XWPFTableRow row2 = tbl2.getRow(0);
