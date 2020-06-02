@@ -31,8 +31,6 @@ import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTSectPr;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTTbl;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTTblGrid;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTTblGridCol;
-import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTTblWidth;
-import org.openxmlformats.schemas.wordprocessingml.x2006.main.STTblWidth;
 
 public class EvidenceData {
 
@@ -155,23 +153,22 @@ public class EvidenceData {
 		}
 
 	}
-	
+
 	public void setDataInHeader(String valueToInsert) throws Exception {
 		try {
 			List<XWPFHeader> hdr = document.getHeaderList();
 			List<XWPFTable> tbl = hdr.get(0).getTables();
-			
+
 			XWPFTableRow row = tbl.get(0).getRow(0);
-			XWPFTableCell cell2 = row.getCell(2);
-			XWPFParagraph p2 = cell2.getParagraphArray(0);
-			p2.setAlignment(ParagraphAlignment.CENTER);
-			XWPFRun r2 = p2.createRun();
-			ConfigurationEvidenceData.setFont(r2, "Arial", 10, false, valueToInsert);
+			XWPFTableCell cell = row.getCell(2);
+			XWPFParagraph p = cell.getParagraphArray(0);
+			p.setAlignment(ParagraphAlignment.CENTER);
+			XWPFRun r = p.createRun();
+			ConfigurationEvidenceData.setFont(r, "Arial", 10, false, valueToInsert);
 		} catch (Exception e) {
 			throw new Exception("Não foi possível inserir um valor no cabeçalho");
 		}
-		
-		
+
 	}
 
 	public void createHeader(String NameProject, String Date) throws Exception {
@@ -185,8 +182,8 @@ public class EvidenceData {
 		tbl.setWidth((int) (6.5 * 1440));
 		CTTbl ctTbl = tbl.getCTTbl();
 		CTTbl ctTbl2 = tbl2.getCTTbl();
-				
-		ConfigurationEvidenceData.addTableProperties(ctTbl,tbl);
+
+		ConfigurationEvidenceData.addTableProperties(ctTbl, tbl);
 		ConfigurationEvidenceData.addTableProperties(ctTbl2, tbl2);
 
 		BigInteger w = new BigInteger("3200");
@@ -195,7 +192,7 @@ public class EvidenceData {
 			CTTblGridCol gridCol = grid.addNewGridCol();
 			gridCol.setW(w);
 		}
-		
+
 		BigInteger w2 = new BigInteger("9600");
 		CTTblGrid grid2 = ctTbl2.addNewTblGrid();
 		for (int i = 0; i < 3; i++) {
@@ -219,13 +216,13 @@ public class EvidenceData {
 		p = cell.getParagraphArray(0);
 		r = p.createRun();
 		ConfigurationEvidenceData.setFont(r, "Arial", 12, true, Date);
-		
+
 		// Add paragraphs to the cells of the Second Line
-				XWPFTableRow row2 = tbl2.getRow(0);
-				XWPFTableCell cell2 = row2.getCell(0);
-				XWPFParagraph p2 = cell2.getParagraphArray(0);
-				XWPFRun r2 = p2.createRun();
-				ConfigurationEvidenceData.setFont(r2, "Arial", 12, true, "Sistema: Real Application");
+		XWPFTableRow row2 = tbl2.getRow(0);
+		XWPFTableCell cell2 = row2.getCell(0);
+		XWPFParagraph p2 = cell2.getParagraphArray(0);
+		XWPFRun r2 = p2.createRun();
+		ConfigurationEvidenceData.setFont(r2, "Arial", 12, true, "Sistema: Real Application");
 
 	}
 
@@ -233,65 +230,58 @@ public class EvidenceData {
 		/***** RODAPÉ *****/
 		try {
 
-			XWPFParagraph paragraph11 = document.createParagraph();
-			XWPFRun run11 = paragraph11.createRun();
+			XWPFParagraph paragraph = document.createParagraph();
+			XWPFRun run = paragraph.createRun();
 
 			CTSectPr sectPr = document.getDocument().getBody().addNewSectPr();
 			XWPFHeaderFooterPolicy headerFooterPolicy = new XWPFHeaderFooterPolicy(document, sectPr);
 			XWPFFooter footer = headerFooterPolicy.createFooter(XWPFHeaderFooterPolicy.DEFAULT);
-			paragraph11 = footer.getParagraphArray(0);
+			paragraph = footer.getParagraphArray(0);
 
-			paragraph11 = footer.createParagraph();
-			XmlCursor cursor = paragraph11.getCTP().newCursor();
+			paragraph = footer.createParagraph();
+			XmlCursor cursor = paragraph.getCTP().newCursor();
 			XWPFTable table = footer.insertNewTbl(cursor);
 
 			XWPFTableRow row = table.createRow();
-			int twipsPerInch = 1440;
-			table.getCTTbl().addNewTblGrid().addNewGridCol().setW(BigInteger.valueOf(6 * twipsPerInch));
 
 			XWPFTableCell cell = row.createCell();
-			CTTblWidth tblWidth = cell.getCTTc().addNewTcPr().addNewTcW();
-			tblWidth.setW(BigInteger.valueOf(8 * twipsPerInch));
-			tblWidth.setType(STTblWidth.DXA);
-			paragraph11 = cell.getParagraphs().get(0);
-			ConfigurationEvidenceData.createdBordLine(paragraph11, Borders.BASIC_BLACK_DASHES);
+			ConfigurationEvidenceData.setWidthOfCell(cell, 8, 1440);
+			
+			paragraph = cell.getParagraphs().get(0);
+			ConfigurationEvidenceData.createdBordLine(paragraph, Borders.BASIC_BLACK_DASHES);
 
-			run11 = paragraph11.createRun();
-			run11.setBold(true);
-			run11.setText("Executado por:  ");
+			run = paragraph.createRun();
+			run.setBold(true);
+			run.setText("Executado por:  ");
 
-			run11 = paragraph11.createRun();
-			run11.setBold(false);
-			run11.setText("Muly Automação");
+			run = paragraph.createRun();
+			run.setBold(false);
+			run.setText("Muly Automação");
 
 			XWPFTableCell cell2 = row.createCell();
-			CTTblWidth tblWidth2 = cell2.getCTTc().addNewTcPr().addNewTcW();
-			tblWidth2.setW(BigInteger.valueOf(3 * twipsPerInch));
-			tblWidth2.setType(STTblWidth.DXA);
+			ConfigurationEvidenceData.setWidthOfCell(cell2, 3, 1440);
 
 			DateFormat dateFormat1 = new SimpleDateFormat("dd-MM-yyyy");
 			Calendar cal1 = Calendar.getInstance();
 			String date1 = dateFormat1.format(cal1.getTime());
-			paragraph11 = cell2.getParagraphs().get(0);
-			ConfigurationEvidenceData.createdBordLine(paragraph11, Borders.BASIC_BLACK_DASHES);
+			paragraph = cell2.getParagraphs().get(0);
+			ConfigurationEvidenceData.createdBordLine(paragraph, Borders.BASIC_BLACK_DASHES);
 
-			run11 = paragraph11.createRun();
-			run11.setBold(true);
-			run11.setText("Data: ");
+			run = paragraph.createRun();
+			run.setBold(true);
+			run.setText("Data: ");
 
-			run11 = paragraph11.createRun();
-			run11.setBold(false);
-			run11.setText(date1);
+			run = paragraph.createRun();
+			run.setBold(false);
+			run.setText(date1);
 
 			XWPFTableCell cell3 = row.createCell();
-			CTTblWidth tblWidth3 = cell3.getCTTc().addNewTcPr().addNewTcW();
-			tblWidth3.setW(BigInteger.valueOf(4 * twipsPerInch));
-			tblWidth3.setType(STTblWidth.DXA);
+			ConfigurationEvidenceData.setWidthOfCell(cell3, 4, 1440);
 
-			paragraph11 = cell3.getParagraphs().get(0);
-			ConfigurationEvidenceData.createdBordLine(paragraph11, Borders.BASIC_BLACK_DASHES);
-			run11 = paragraph11.createRun();
-			run11.setText("    Versão: 1.0");
+			paragraph = cell3.getParagraphs().get(0);
+			ConfigurationEvidenceData.createdBordLine(paragraph, Borders.BASIC_BLACK_DASHES);
+			run = paragraph.createRun();
+			run.setText("    Versão: 1.0");
 
 		} catch (Exception e) {
 			e.printStackTrace();

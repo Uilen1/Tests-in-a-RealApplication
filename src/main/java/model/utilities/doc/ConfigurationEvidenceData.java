@@ -2,6 +2,7 @@ package model.utilities.doc;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.math.BigInteger;
 
 import org.apache.poi.util.Units;
 import org.apache.poi.xwpf.usermodel.Borders;
@@ -9,9 +10,11 @@ import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.apache.poi.xwpf.usermodel.XWPFRun;
 import org.apache.poi.xwpf.usermodel.XWPFTable;
+import org.apache.poi.xwpf.usermodel.XWPFTableCell;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTTbl;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTTblLayoutType;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTTblPr;
+import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTTblWidth;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.STTblLayoutType;
 
 public class ConfigurationEvidenceData {
@@ -78,6 +81,11 @@ public class ConfigurationEvidenceData {
 		} catch (Exception e) {
 			throw new Exception("Erro ao adicionar as propriedades da tabela");
 		}
+	}
+	
+	public static void setWidthOfCell(XWPFTableCell cell, int valueInInch, int twipsPerInch) {
+		CTTblWidth tblWidth = cell.getCTTc().addNewTcPr().addNewTcW();
+		tblWidth.setW(BigInteger.valueOf(valueInInch * twipsPerInch));
 	}
 	
 	public static void addBreaks(XWPFRun run, int i) {
