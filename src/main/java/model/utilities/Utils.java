@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
@@ -23,6 +24,28 @@ public class Utils {
 	public GetScreenShoot getScreenShoot = new GetScreenShoot();
 	WebDriverWait wait = new WebDriverWait(getDriver(), 60);
 
+	
+	public void scrolltoElement(WebElement element) {
+		boolean condition = true;
+		WebDriverWait wait = new WebDriverWait(getDriver(), 3);
+		while (condition) {
+			if (wait.until(ExpectedConditions.visibilityOf(element)) != null) {
+
+				executarJavascript(
+						"arguments[0].scrollIntoView({behavior: 'instant', block: 'center',inline: 'center'})",
+						element);
+				condition = false;
+				break;
+			}
+		}
+
+	}
+	
+	public static Object executarJavascript(String cmd, Object... params) {
+		JavascriptExecutor js = (JavascriptExecutor) getDriver();
+		return js.executeScript(cmd, params);
+	}
+	
 	/********* Console Log *********/
 	public void description(String text) {
 		System.out.println(text);
@@ -76,6 +99,12 @@ public class Utils {
 
 	/************ Write ************/
 
+	public void escrever(WebElement element, String text) throws Exception {
+		wait.until(ExpectedConditions.visibilityOf(element));
+		scrolltoElement(element);
+		element.sendKeys(text);
+	}
+	
 	public void write(String element, String text, String nameStep) throws Exception {
 		getDriver().findElement(By.xpath(mapComponentes.elementInput(element))).sendKeys(text);
 		GetScreenShoot.getEvidenceElement(nameStep,
