@@ -10,7 +10,9 @@ import java.util.List;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import model.map.mapComponentes;
 import model.utilities.screenshoot.GetScreenShoot;
@@ -19,9 +21,21 @@ public class Utils {
 
 	private mapComponentes mapComponents = new mapComponentes();
 	public GetScreenShoot getScreenShoot = new GetScreenShoot();
+	WebDriverWait wait = new WebDriverWait(getDriver(), 60);
 
+	/********* Console Log *********/
+	public void description(String text) {
+		System.out.println(text);
+	}
+	
 	/************ Click ************/
 
+	public void clicar(WebElement element) throws Exception {
+		wait.until(ExpectedConditions.visibilityOf(element));
+		wait.until(ExpectedConditions.elementToBeClickable(element));
+		element.click();
+	}
+	
 	public void clickElement(WebElement element, String nameStep) throws Exception {
 		GetScreenShoot.getEvidenceElement(nameStep, element);
 		element.click();
