@@ -6,7 +6,7 @@ public class Constants {
 	public static String RODAPE = "======================================== END_TEST ========================================\n\n";
 	public static String DIRETORIO_RAIZ = "[PROJECT_DIRECTORY] - "+System.getProperty("user.dir");
 	public static String EMAIL = "uilenlelles@hotmail.com";
-	public static String SENHA = "";
+	public static String SENHA = "teste";
 	
 
 }
