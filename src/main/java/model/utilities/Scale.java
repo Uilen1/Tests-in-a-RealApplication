@@ -1,14 +1,11 @@
 package model.utilities;
 
-import java.awt.Toolkit;
-
-import com.sun.jna.platform.win32.GDI32;
-import com.sun.jna.platform.win32.WinDef;
+import java.awt.*;
 
 public class Scale {
 	
-	public static double getScreenScale() throws Exception {
-		WinDef.HDC hdc = GDI32.INSTANCE.CreateCompatibleDC(null);
+	public static double getScreenScale(){
+//		WinDef.HDC hdc = GDI32.INSTANCE.CreateCompatibleDC(null);
 //		if (hdc != null) {
 //			float actual = GDI32.INSTANCE.GetDeviceCaps(hdc, 10 /* VERTRES */);
 //			float logical = GDI32.INSTANCE.GetDeviceCaps(hdc, 117 /* DESKTOPVERTRES */);

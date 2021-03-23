@@ -12,7 +12,6 @@ import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.rules.TestName;
 
@@ -56,14 +55,10 @@ public class BaseTest {
 	@Rule
 	public TestName testName = new TestName();
 
-	@BeforeClass
-	public static void setup(){
-		System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "//driver//chromedriver.exe");
-	}
-
 	@Before
 	public void before() throws Exception {
 		try {
+			System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "//driver//chromedriver.exe");
 			evidencePath = System.getProperty("user.dir") +File.separator+ "outPut" +File.separator+ suiteName+File.separator+ classTestName +File.separator+ executionTestName+File.separator+"evidenceScreenShoot" +File.separator+ sdf.format(getTimeStamps());
 			Properties.RESULT_TEST = "";
 			data.setData(utils.obtainedDateFormated(new Date()), (String) excelData.get("Test"), "vOutData");
