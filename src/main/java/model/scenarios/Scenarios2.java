@@ -1,31 +1,28 @@
 package model.scenarios;
 
-import java.util.List;
-
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
-
 import model.core.BaseTest;
-import model.core.Constants;
 import model.core.Properties;
 import model.pages.InsertAccountPage;
 import model.pages.MovementPage;
 import model.pages.ResumePage;
 import model.pages.UpdateAccountPage;
 import model.utilities.excel.DataDictionary;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
+
+import java.util.List;
 
 @RunWith(Parameterized.class)
-public class Scenarios extends BaseTest {
+public class Scenarios2 extends BaseTest {
 
 	private InsertAccountPage insertAccount = new InsertAccountPage();
 	private UpdateAccountPage updateAccount = new UpdateAccountPage();
 	private MovementPage movement = new MovementPage();
 	private ResumePage resumePage = new ResumePage();
 
-	public Scenarios(String executeTestName, DataDictionary excelData) {
+	public Scenarios2(String executeTestName, DataDictionary excelData) {
 		super(executeTestName, excelData);
 	}
 

@@ -8,7 +8,7 @@ import com.sun.jna.platform.win32.WinDef;
 public class Scale {
 	
 	public static double getScreenScale() throws Exception {
-		WinDef.HDC hdc = GDI32.INSTANCE.CreateCompatibleDC(null);
+//		WinDef.HDC hdc = GDI32.INSTANCE.CreateCompatibleDC(null);
 //		if (hdc != null) {
 //			float actual = GDI32.INSTANCE.GetDeviceCaps(hdc, 10 /* VERTRES */);
 //			float logical = GDI32.INSTANCE.GetDeviceCaps(hdc, 117 /* DESKTOPVERTRES */);
@@ -17,6 +17,7 @@ public class Scale {
 //				return logical / actual;
 //			}
 //		}
+
 		//escala usa 96 como referencia para tela de 100%
 		return (Toolkit.getDefaultToolkit().getScreenResolution() / 96.0f);
 	}

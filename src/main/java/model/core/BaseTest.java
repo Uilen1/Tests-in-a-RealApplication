@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -64,6 +65,8 @@ public class BaseTest {
 	@Before
 	public void before() throws Exception {
 		try {
+			System.out.println(Constants.CABECALHO);
+			System.out.println(Constants.DIRETORIO_RAIZ);
 			evidencePath = System.getProperty("user.dir") +File.separator+ "outPut" +File.separator+ suiteName+File.separator+ classTestName +File.separator+ executionTestName+File.separator+"evidenceScreenShoot" +File.separator+ sdf.format(getTimeStamps());
 			Properties.RESULT_TEST = "";
 			data.setData(utils.obtainedDateFormated(new Date()), (String) excelData.get("Test"), "vOutData");
@@ -104,7 +107,7 @@ public class BaseTest {
 			className = new Throwable().getStackTrace()[1].getClassName().toString().split("\\W");
 			classTestName = className[className.length - 1];
 			suiteName = className[className.length - 2];
-			data = new GlobalData(suiteName, classTestName);
+			data = new GlobalData(Constants.NAME_DATA, Constants.FOLDER_NAME_DATA);
 			return data.getData();
 		} catch (Exception e) {
 			throw new Exception("Erro no método loadTest! ");

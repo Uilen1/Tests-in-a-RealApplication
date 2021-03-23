@@ -27,8 +27,8 @@ public class InteractWithExcel {
 	private List<String> nameRunTest = new ArrayList<String>();
 	private List<HashMap<String, Object>> runTests = new ArrayList<HashMap<String, Object>>();
 
-	public InteractWithExcel(String scenararioName, String className) {
-		this.scenarioName = scenararioName;
+	public InteractWithExcel(String scenarioName, String className) {
+		this.scenarioName = scenarioName;
 		this.className = className;
 	}
 
@@ -223,7 +223,7 @@ public class InteractWithExcel {
 	}
 
 	public List<Object> loadData() throws Exception {
-		List<Object> listData = new ArrayList<>();
+		List<Object> listData = new ArrayList<Object>();
 		List<HashMap<String, Object>> hashMapTest = new ArrayList<HashMap<String, Object>>();
 
 		try {
@@ -322,11 +322,7 @@ public class InteractWithExcel {
 			fileOut.flush();
 			fileOut.close();
 		} catch (Exception e) {
-			try {
-				throw (e);
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
+			e.printStackTrace();
 		}
 
 	}
@@ -338,11 +334,7 @@ public class InteractWithExcel {
 			fileOut.flush();
 			fileOut.close();
 		} catch (Exception e) {
-			try {
-				throw (e);
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
+			e.printStackTrace();
 		}
 	}
 }
