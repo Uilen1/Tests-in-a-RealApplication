@@ -8,7 +8,7 @@ import com.sun.jna.platform.win32.WinDef;
 public class Scale {
 	
 	public static double getScreenScale() throws Exception {
-//		WinDef.HDC hdc = GDI32.INSTANCE.CreateCompatibleDC(null);
+		WinDef.HDC hdc = GDI32.INSTANCE.CreateCompatibleDC(null);
 //		if (hdc != null) {
 //			float actual = GDI32.INSTANCE.GetDeviceCaps(hdc, 10 /* VERTRES */);
 //			float logical = GDI32.INSTANCE.GetDeviceCaps(hdc, 117 /* DESKTOPVERTRES */);
