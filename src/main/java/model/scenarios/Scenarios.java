@@ -1,13 +1,5 @@
 package model.scenarios;
 
-import java.util.List;
-
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
-
 import model.core.BaseTest;
 import model.core.Constants;
 import model.core.Properties;
@@ -15,7 +7,12 @@ import model.pages.InsertAccountPage;
 import model.pages.MovementPage;
 import model.pages.ResumePage;
 import model.pages.UpdateAccountPage;
-import model.utilities.excel.DataDictionary;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
+
+import java.util.List;
 
 @RunWith(Parameterized.class)
 public class Scenarios extends BaseTest {
@@ -24,25 +21,27 @@ public class Scenarios extends BaseTest {
 	private UpdateAccountPage updateAccount = new UpdateAccountPage();
 	private MovementPage movement = new MovementPage();
 	private ResumePage resumePage = new ResumePage();
+	private static String jsonFileName = "example";
+	private static String dataGroup = "CT_01";
 
-	public Scenarios(String executeTestName, DataDictionary excelData) {
+	public Scenarios(String executeTestName, Object excelData) {
 		super(executeTestName, excelData);
 	}
 
 	@Parameters(name = "{0}")
 	public static List<Object> parametersToTest() throws Exception {
-		return loadData();
+		return loadData(jsonFileName,dataGroup);
 	}
 	
 	@Test
 	public void Test() throws Exception {
 		try {
-			insertAccount.insertAccount((String) excelData.get("vNameAccount"));
+			insertAccount.insertAccount((String) jsonObjectData.get("vNameAccount"));
 			
-			  insertAccount.checkExceptions((String) excelData.get("vNameAccount")); 
-			  updateAccount.updateAccount((String) excelData.get("vUpdateAccount"), 
-			  (String) excelData.get("vNameAccount")); 
-			  movement.toCreateMovement((String) excelData.get("vCreateMovement")); 
+			  insertAccount.checkExceptions((String) jsonObjectData.get("vNameAccount"));
+			  updateAccount.updateAccount((String) jsonObjectData.get("vUpdateAccount"),
+			  (String) jsonObjectData.get("vNameAccount"));
+			  movement.toCreateMovement((String) jsonObjectData.get("vCreateMovement"));
 			  resumePage.deleteMovementAccount();
 			 		
 		} catch (Exception e) {
@@ -50,6 +49,7 @@ public class Scenarios extends BaseTest {
 			if (Properties.RESULT_TEST != "" || Properties.RESULT_TEST != null) {
 				Properties.RESULT_TEST = "Failed";
 				System.out.println("[RESULT] = FAILED! \n");
+				System.out.println(Constants.DIRETORIO_EVIDENCIAS + "\n");
 				System.out.println(e.getMessage());
 				throw new Exception(e.getMessage());
 			}

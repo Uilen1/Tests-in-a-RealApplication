@@ -20,7 +20,24 @@ public class GetScreenShoot{
 
 	public static void getEvidenceElement(String nameTest, WebElement... elements) throws Exception {
 		try {
+			TakesScreenshot takeSs = (TakesScreenshot) getDriver();
+			File file = takeSs.getScreenshotAs(OutputType.FILE);
+			FileUtils.copyFile(file,
+					new File(BaseTest.evidencePath + File.separator + "00" + BaseTest.evidenceCount + "_"
+							+ nameTest + ".png"));
 			for (WebElement element : elements) {
+				Higthlight.higthlight(nameTest, element);
+			}
+			BaseTest.evidenceCount++;
+
+		} catch (Exception e) {
+
+			throw new Exception("Error in get evidence: " + e.getMessage());
+		}
+	}
+
+	public static void getEvidenceElement(String nameTest, WebElement element) throws Exception {
+		try {
 				basePage.scrolltoElement(element);
 				TakesScreenshot takeSs = (TakesScreenshot) getDriver();
 				File file = takeSs.getScreenshotAs(OutputType.FILE);
@@ -29,7 +46,6 @@ public class GetScreenShoot{
 								+ nameTest + ".png"));
 				Higthlight.higthlight(nameTest, element);
 				BaseTest.evidenceCount++;
-			}
 
 		} catch (Exception e) {
 

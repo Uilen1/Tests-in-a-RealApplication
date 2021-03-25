@@ -1,14 +1,12 @@
 package model.scenarios;
 
 import model.core.BaseTest;
-import model.core.Constants;
 import model.core.Properties;
 import model.pages.InsertAccountPage;
 import model.pages.MovementPage;
 import model.pages.ResumePage;
 import model.pages.UpdateAccountPage;
 import model.utilities.excel.DataDictionary;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
