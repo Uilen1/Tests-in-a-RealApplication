@@ -6,6 +6,7 @@ import static org.junit.Assert.assertTrue;
 import java.util.List;
 
 import io.qameta.allure.Step;
+import model.core.Constants;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
@@ -37,22 +38,26 @@ public class ResumePage extends BasePage {
 	/************ Element_Radio ************/
 
 	public boolean obtainedItemCombo(String item, String idElement, String nameStep) throws Exception {
-		WebElement elementWeb = resumeMap.elementSelected(idElement);
-		Select combo = new Select(elementWeb);
-		List<WebElement> options = combo.getOptions();
 		boolean finded = false;
-
 		try {
+			WebElement elementWeb = resumeMap.elementSelected(idElement);
+			Select combo = new Select(elementWeb);
+			List<WebElement> options = combo.getOptions();
 			for (WebElement option : options) {
 				if (option.getText().equals(item)) {
-					GetScreenShoot.getEvidenceElement(nameStep, elementWeb);
+					if(!Constants.SCREENSHOT_BY_EXCEPTION){
+						GetScreenShoot.getEvidenceElement(nameStep, elementWeb);
+					}
 					finded = true;
 					break;
 				}
 			}
 			return finded;
 		} catch (Exception e) {
-			throw new Exception("Não foi possível interagir com o elemento: " + elementWeb + "\n");
+			if(Constants.SCREENSHOT_BY_EXCEPTION){
+				GetScreenShoot.getEvidenceElement(nameStep);
+			}
+			throw new Exception("Não foi possível interagir com o elemento: " + e.getMessage() + "\n");
 		}
 		
 	}
@@ -60,13 +65,18 @@ public class ResumePage extends BasePage {
 	/************ Obtained_Texts ************/
 
 	public String getAlertText(String classAlert, String nameStep) throws Exception{
-		WebElement element = resumeMap.elementAlert(classAlert);
 		try {
-			GetScreenShoot.getEvidenceElement(nameStep, element);
+			WebElement element = resumeMap.elementAlert(classAlert);
+			if(!Constants.SCREENSHOT_BY_EXCEPTION){
+				GetScreenShoot.getEvidenceElement(nameStep, element);
+			}
 			return element.getText();
 
 		} catch (Exception e) {
-			throw new Exception("Não foi possível interagir com o elemento: " + element + "\n");
+			if(Constants.SCREENSHOT_BY_EXCEPTION){
+				GetScreenShoot.getEvidenceElement(nameStep);
+			}
+			throw new Exception("Não foi possível interagir com o elemento: " + e.getMessage() + "\n");
 		}
 		
 	}
@@ -74,13 +84,13 @@ public class ResumePage extends BasePage {
 	/************ Tables ************/
 
 	public WebElement getTable(String idTable) throws Exception {
-		WebElement element = resumeMap.elementTable(idTable);
 		try {
+			WebElement element = resumeMap.elementTable(idTable);
 
 			return element;
 
 		} catch (Exception e) {
-			throw new Exception("Não foi possível interagir com o elemento: " + element + "\n");
+			throw new Exception("Não foi possível interagir com o elemento: " + e.getMessage() + "\n");
 		}
 
 	}
@@ -136,14 +146,18 @@ public class ResumePage extends BasePage {
 
 	public void clickElementTable(String register, String nameAccount, String idTable, String nameColumnAction,
 			String nameStep) throws Exception {
-		WebElement elementButton = ElementTable(register, nameAccount, idTable, nameColumnAction, nameStep);
-		WebElement tableButton = elementButton.findElement(By.xpath(resumeMap.elementTableClick));
 		try {
-
-			GetScreenShoot.getEvidenceElement(nameStep, elementButton);
+			WebElement elementButton = ElementTable(register, nameAccount, idTable, nameColumnAction, nameStep);
+			WebElement tableButton = elementButton.findElement(By.xpath(resumeMap.elementTableClick));
+			if(!Constants.SCREENSHOT_BY_EXCEPTION){
+				GetScreenShoot.getEvidenceElement(nameStep, elementButton);
+			}
 			tableButton.click();
 		} catch (Exception e) {
-			throw new Exception("Não foi possível interagir com o elemento da tabela: \n" + tableButton);
+			if(Constants.SCREENSHOT_BY_EXCEPTION){
+				GetScreenShoot.getEvidenceElement(nameStep);
+			}
+			throw new Exception("Não foi possível interagir com o elemento da tabela: \n" + e.getMessage());
 		}
 
 	}

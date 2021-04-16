@@ -21,7 +21,7 @@ public class BasePage {
 
 	protected void initialScreen() {
 		getDriver().manage().window().maximize();
-		getDriver().get("https://seubarriga.wcaquino.me");
+		getDriver().get(Constants.URL);
 	}
 
 	public void scrolltoElement(WebElement element) {

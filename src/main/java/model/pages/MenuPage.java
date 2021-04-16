@@ -1,5 +1,6 @@
 package model.pages;
 
+import model.core.Constants;
 import org.openqa.selenium.WebElement;
 
 import model.core.BasePage;
@@ -50,13 +51,18 @@ public class MenuPage extends BasePage {
 	/************ Click ************/
 
 	public void clickLink(String name, String nameStep) throws Exception {
-		WebElement element = menuMap.elementLink(name);
 
 		try {
-			GetScreenShoot.getEvidenceElement(nameStep, element);
+			WebElement element = menuMap.elementLink(name);
+			if(!Constants.SCREENSHOT_BY_EXCEPTION){
+				GetScreenShoot.getEvidenceElement(nameStep, element);
+			}
 			element.click();
 		} catch (Exception e) {
-			throw new Exception("Não foi possível interagir com o elemento: " + element + "\n");
+			if(Constants.SCREENSHOT_BY_EXCEPTION){
+				GetScreenShoot.getEvidenceElement(nameStep);
+			}
+			throw new Exception("Não foi possível interagir com o elemento: " + e.getMessage() + "\n");
 		}
 
 	}

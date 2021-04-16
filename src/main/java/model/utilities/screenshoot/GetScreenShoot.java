@@ -62,6 +62,24 @@ public class GetScreenShoot{
 		}
 	}
 
+	public static void getEvidenceElement(String nameTest) throws Exception {
+		try {
+			TakesScreenshot takeSs = (TakesScreenshot) getDriver();
+			if(Constants.CREATE_ATTACHMENT_ALLURE){
+				saveScreenshotPNGAllure(getDriver());
+			}
+			File file = takeSs.getScreenshotAs(OutputType.FILE);
+			FileUtils.copyFile(file,
+					new File(BaseTest.evidencePath + File.separator + "00" + BaseTest.evidenceCount + "_"
+							+ nameTest + ".png"));
+			BaseTest.evidenceCount++;
+
+		} catch (Exception e) {
+
+			throw new Exception("Error in get evidence: " + e.getMessage());
+		}
+	}
+
 	@Attachment(value = "Page Screenshot", type = "image/png")
 	public static byte[] saveScreenshotPNGAllure(WebDriver driver){
 		TakesScreenshot takeSs = (TakesScreenshot) getDriver();

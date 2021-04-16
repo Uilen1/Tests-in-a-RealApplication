@@ -11,7 +11,7 @@ import static model.core.DriverFactory.killDriver;
 
 @RunWith(Suite.class)
 
-@SuiteClasses({Scenarios.class, Scenarios1.class
+@SuiteClasses({Scenarios1.class
 	
 })
 

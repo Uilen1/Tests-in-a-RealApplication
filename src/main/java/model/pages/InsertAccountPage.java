@@ -3,6 +3,7 @@ package model.pages;
 import static org.junit.Assert.assertEquals;
 
 import io.qameta.allure.Step;
+import model.core.Constants;
 import org.openqa.selenium.WebElement;
 
 import model.core.BasePage;
@@ -47,33 +48,43 @@ public class InsertAccountPage extends BasePage {
 	/************ Click ************/
 
 	public void click(String elementToBeClickable) throws Exception {
-		WebElement element = insertAccountMap.elementInput(elementToBeClickable);
 		try {
+			WebElement element = insertAccountMap.elementInput(elementToBeClickable);
 			element.click();
 		} catch (Exception e) {
 
-			throw new Exception("Não foi possível interagir com o elemento: " + element + "\n");
+			throw new Exception("Não foi possível interagir com o elemento: " + e.getMessage() + "\n");
 		}
 	}
 
 	public void click(String elementToBeClickable, String nameStep) throws Exception {
-		WebElement element = insertAccountMap.elementInput(elementToBeClickable);
 		try {
+			WebElement element = insertAccountMap.elementInput(elementToBeClickable);
+			if(!Constants.SCREENSHOT_BY_EXCEPTION){
+				GetScreenShoot.getEvidenceElement(nameStep, element);
+			}
 			element.click();
-			GetScreenShoot.getEvidenceElement(nameStep, element);
 		} catch (Exception e) {
-			throw new Exception("Não foi possível interagir com o elemento: " + element + "\n");
+			if(Constants.SCREENSHOT_BY_EXCEPTION){
+				GetScreenShoot.getEvidenceElement(nameStep);
+			}
+			throw new Exception("Não foi possível interagir com o elemento: " + e.getMessage() + "\n");
 		}
 
 	}
 
 	public void clickButton(String elementToBeClickable, String nameStep) throws Exception {
-		WebElement element = insertAccountMap.elementButton(elementToBeClickable);
 		try {
-			GetScreenShoot.getEvidenceElement(nameStep, element);
+			WebElement element = insertAccountMap.elementButton(elementToBeClickable);
+			if(!Constants.SCREENSHOT_BY_EXCEPTION){
+				GetScreenShoot.getEvidenceElement(nameStep, element);
+			}
 			element.click();
 		} catch (Exception e) {
-			throw new Exception("Não foi possível interagir com o elemento: " + element + "\n");
+			if(Constants.SCREENSHOT_BY_EXCEPTION){
+				GetScreenShoot.getEvidenceElement(nameStep);
+			}
+			throw new Exception("Não foi possível interagir com o elemento: " + e.getMessage() + "\n");
 		}
 
 	}
@@ -81,13 +92,18 @@ public class InsertAccountPage extends BasePage {
 	/************ Write ************/
 
 	public void write(String element, String text, String nameStep) throws Exception {
-		WebElement elements = insertAccountMap.elementInput(element);
 
 		try {
+			WebElement elements = insertAccountMap.elementInput(element);
 			elements.sendKeys(text);
-			GetScreenShoot.getEvidenceElement(nameStep, elements);
+			if(!Constants.SCREENSHOT_BY_EXCEPTION){
+				GetScreenShoot.getEvidenceElement(nameStep, elements);
+			}
 		} catch (Exception e) {
-			throw new Exception("Não foi possível interagir com o elemento: " + element + "\n");
+			if(Constants.SCREENSHOT_BY_EXCEPTION){
+				GetScreenShoot.getEvidenceElement(nameStep);
+			}
+			throw new Exception("Não foi possível interagir com o elemento: " + e.getMessage() + "\n");
 		}
 
 	}
@@ -95,13 +111,18 @@ public class InsertAccountPage extends BasePage {
 	/************ Obtained_Texts ************/
 
 	public String getAlertText(String classAlert, String nameStep) throws Exception {
-		WebElement element = insertAccountMap.elementAlert(classAlert);
 		try {
-			GetScreenShoot.getEvidenceElement(nameStep, element);
+			WebElement element = insertAccountMap.elementAlert(classAlert);
+			if(!Constants.SCREENSHOT_BY_EXCEPTION){
+				GetScreenShoot.getEvidenceElement(nameStep, element);
+			}
 			return element.getText();
 
 		} catch (Exception e) {
-			throw new Exception("Não foi possível interagir com o elemento: " + element + "\n");
+			if(Constants.SCREENSHOT_BY_EXCEPTION){
+				GetScreenShoot.getEvidenceElement(nameStep);
+			}
+			throw new Exception("Não foi possível interagir com o elemento: \n");
 		}
 
 	}

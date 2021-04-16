@@ -7,6 +7,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import model.core.Constants;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -130,10 +131,19 @@ public class Utils {
 	}
 
 	public String getAlertText(String classAlert, String nameStep) throws Exception {
-		WebElement element = getDriver().findElement(By.xpath(mapComponentes.elementAlert(classAlert)));
-		GetScreenShoot.getEvidenceElement(nameStep, element);
+		try{
+			WebElement element = getDriver().findElement(By.xpath(mapComponentes.elementAlert(classAlert)));
+			if(!Constants.SCREENSHOT_BY_EXCEPTION){
+				GetScreenShoot.getEvidenceElement(nameStep, element);
+			}
+			return element.getText();
 
-		return element.getText();
+		}catch (Exception e){
+			if(Constants.SCREENSHOT_BY_EXCEPTION){
+				GetScreenShoot.getEvidenceElement(nameStep);
+			}
+			throw new Exception("O texto do Alert não esta como esperado \n\n" + e.getMessage());
+		}
 	}
 
 	/************ Element_Radio ************/
@@ -146,7 +156,9 @@ public class Utils {
 		WebElement elementWeb = getDriver().findElement(By.xpath(mapComponentes.elementSelected(element)));
 		Select combo = new Select(elementWeb);
 		combo.selectByVisibleText(item);
-		GetScreenShoot.getEvidenceElement(nameStep, elementWeb);
+		if(!Constants.SCREENSHOT_BY_EXCEPTION){
+			GetScreenShoot.getEvidenceElement(nameStep, elementWeb);
+		}
 
 	}
 
@@ -223,7 +235,9 @@ public class Utils {
 			String nameStep) throws Exception{
 		WebElement elementButton = ElementTable(register, nameAccount, idTable, nameColumnAction, nameStep);
 		WebElement tableButton = elementButton.findElement(By.xpath(mapComponents.elementTableClick));
-		GetScreenShoot.getEvidenceElement(nameStep, elementButton);
+		if(!Constants.SCREENSHOT_BY_EXCEPTION){
+			GetScreenShoot.getEvidenceElement(nameStep, elementButton);
+		}
 		tableButton.click();
 	}
 
@@ -231,7 +245,9 @@ public class Utils {
 		WebElement tableButton = getDriver()
 				.findElement(By.xpath(mapComponentes.inputTable(idColumnButton, idRow, idTable)));
 		tableButton.click();
-		GetScreenShoot.getEvidenceElement(nameStep, tableButton);
+		if(!Constants.SCREENSHOT_BY_EXCEPTION){
+			GetScreenShoot.getEvidenceElement(nameStep, tableButton);
+		}
 
 	}
 

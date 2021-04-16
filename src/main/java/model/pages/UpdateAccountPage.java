@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import java.util.List;
 
 import io.qameta.allure.Step;
+import model.core.Constants;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
@@ -35,37 +36,44 @@ public class UpdateAccountPage extends BasePage {
 	/************ Click ************/
 
 	public void click(String elementToBeClickable) throws Exception{
-		WebElement element = updateAccountMap.elementInput(elementToBeClickable);
 		try {
+			WebElement element = updateAccountMap.elementInput(elementToBeClickable);
 			element.click();
 		} catch (Exception e) {
 
-			throw new Exception("Não foi possível interagir com o elemento: " + element + "\n");
+			throw new Exception("Não foi possível interagir com o elemento: " + e.getMessage() + "\n");
 		}
 	}
 
 	public void click(String elementToBeClickable, String nameStep) throws Exception {
 		
-		WebElement element = updateAccountMap.elementInput(elementToBeClickable);
 		try {
+			WebElement element = updateAccountMap.elementInput(elementToBeClickable);
 			element.click();
-			GetScreenShoot.getEvidenceElement(nameStep, element);
-
+			if(!Constants.SCREENSHOT_BY_EXCEPTION){
+				GetScreenShoot.getEvidenceElement(nameStep, element);
+			}
 		} catch (Exception e) {
-
-			throw new Exception("Não foi possível interagir com o elemento: " + element + "\n");
+			if(Constants.SCREENSHOT_BY_EXCEPTION){
+				GetScreenShoot.getEvidenceElement(nameStep);
+			}
+			throw new Exception("Não foi possível interagir com o elemento: " + e.getMessage() + "\n");
 		}
 
 	}
 
 	public void clickButton(String elementToBeClickable, String nameStep) throws Exception{
-		WebElement element = updateAccountMap.elementButton(elementToBeClickable);
 		try {
-			GetScreenShoot.getEvidenceElement(nameStep, element);
+			WebElement element = updateAccountMap.elementButton(elementToBeClickable);
+			if(!Constants.SCREENSHOT_BY_EXCEPTION){
+				GetScreenShoot.getEvidenceElement(nameStep, element);
+			}
 			element.click();
 		} catch (Exception e) {
-
-			throw new Exception("Não foi possível interagir com o elemento: " + element + "\n");
+			if(Constants.SCREENSHOT_BY_EXCEPTION){
+				GetScreenShoot.getEvidenceElement(nameStep);
+			}
+			throw new Exception("Não foi possível interagir com o elemento: " + e.getMessage() + "\n");
 		}
 		
 	}
@@ -73,13 +81,18 @@ public class UpdateAccountPage extends BasePage {
 	/************ Write ************/
 
 	public void write(String element, String text, String nameStep) throws Exception{
-		WebElement elements = updateAccountMap.elementInput(element);
 		try {
+			WebElement elements = updateAccountMap.elementInput(element);
 			elements.sendKeys(text);
-			GetScreenShoot.getEvidenceElement(nameStep, elements);
+			if(!Constants.SCREENSHOT_BY_EXCEPTION){
+				GetScreenShoot.getEvidenceElement(nameStep, elements);
+			}
 
 		} catch (Exception e) {
-			throw new Exception("Não foi possível interagir com o elemento: " + element + "\n");
+			if(Constants.SCREENSHOT_BY_EXCEPTION){
+				GetScreenShoot.getEvidenceElement(nameStep);
+			}
+			throw new Exception("Não foi possível interagir com o elemento: " + e.getMessage() + "\n");
 		}
 		
 	}
@@ -87,13 +100,19 @@ public class UpdateAccountPage extends BasePage {
 	/************ Obtained_Texts ************/
 
 	public String getAlertText(String classAlert, String nameStep) throws Exception{
-		WebElement element = updateAccountMap.elementAlert(classAlert);
 		try {
-			GetScreenShoot.getEvidenceElement(nameStep, element);
+			WebElement element = updateAccountMap.elementAlert(classAlert);
+			if(!Constants.SCREENSHOT_BY_EXCEPTION){
+				GetScreenShoot.getEvidenceElement(nameStep, element);
+			}
+
 			return element.getText();
 
 		} catch (Exception e) {
-			throw new Exception("Não foi possível interagir com o elemento: " + element + "\n");
+			if(Constants.SCREENSHOT_BY_EXCEPTION){
+				GetScreenShoot.getEvidenceElement(nameStep);
+			}
+			throw new Exception("Não foi possível interagir com o elemento: " + e.getMessage() + "\n");
 		}
 		
 	}
@@ -101,13 +120,13 @@ public class UpdateAccountPage extends BasePage {
 	/************ Tables ************/
 
 	public WebElement getTable(String idTable) throws Exception{
-		WebElement element = updateAccountMap.elementTable(idTable);
 		try {
-			
+			WebElement element = updateAccountMap.elementTable(idTable);
+
 			return element;
 
 		} catch (Exception e) {
-			throw new Exception("Não foi possível interagir com o elemento: " + element + "\n");
+			throw new Exception("Não foi possível interagir com o elemento: " + e.getMessage() + "\n");
 		}
 
 	}
@@ -165,14 +184,18 @@ public class UpdateAccountPage extends BasePage {
 
 	public void clickElementTable(String register, String nameAccount, String idTable, String nameColumnAction,
 			String nameStep) throws Exception {
-		WebElement elementButton = ElementTable(register, nameAccount, idTable, nameColumnAction, nameStep);
-		WebElement tableButton = elementButton.findElement(By.xpath(updateAccountMap.elementTableClick));
 		try {
-			
-			GetScreenShoot.getEvidenceElement(nameStep, elementButton);
+			WebElement elementButton = ElementTable(register, nameAccount, idTable, nameColumnAction, nameStep);
+			WebElement tableButton = elementButton.findElement(By.xpath(updateAccountMap.elementTableClick));
+			if(!Constants.SCREENSHOT_BY_EXCEPTION){
+				GetScreenShoot.getEvidenceElement(nameStep, elementButton);
+			}
 			tableButton.click();
 		} catch (Exception e) {
-			throw new Exception("Não foi possível interagir com o elemento da tabela: \n" + tableButton);
+			if(Constants.SCREENSHOT_BY_EXCEPTION){
+				GetScreenShoot.getEvidenceElement(nameStep);
+			}
+			throw new Exception("Não foi possível interagir com o elemento da tabela: \n" + e.getMessage());
 		}
 	
 	}

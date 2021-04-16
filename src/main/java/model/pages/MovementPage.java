@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import java.util.Date;
 
 import io.qameta.allure.Step;
+import model.core.Constants;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 
@@ -46,32 +47,42 @@ public class MovementPage extends BasePage{
 	/************ Click ************/
 	
 	public void click(String elementToBeClickable) throws Exception {
-		WebElement element = movementMap.elementInput(elementToBeClickable);
 		try {
+			WebElement element = movementMap.elementInput(elementToBeClickable);
 			element.click();
 		} catch (Exception e) {
 
-			throw new Exception("Não foi possível interagir com o elemento: " + element + "\n");
+			throw new Exception("Não foi possível interagir com o elemento: " + e.getMessage() + "\n");
 		}
 	}
 	
 	public void click(String elementToBeClickable, String nameStep) throws Exception {
-		WebElement element = movementMap.elementInput(elementToBeClickable);
 		try {
+			WebElement element = movementMap.elementInput(elementToBeClickable);
 			element.click();
-			GetScreenShoot.getEvidenceElement(nameStep, element);
+			if(!Constants.SCREENSHOT_BY_EXCEPTION){
+				GetScreenShoot.getEvidenceElement(nameStep, element);
+			}
 		} catch (Exception e) {
-			throw new Exception("Não foi possível interagir com o elemento: " + element + "\n");
+			if(Constants.SCREENSHOT_BY_EXCEPTION){
+				GetScreenShoot.getEvidenceElement(nameStep);
+			}
+			throw new Exception("Não foi possível interagir com o elemento: " + e.getMessage() + "\n");
 		}
 	}
 	
 	public void clickButton(String elementToBeClickable, String nameStep) throws Exception {
-		WebElement element = movementMap.elementButton(elementToBeClickable);
 		try {
-			GetScreenShoot.getEvidenceElement(nameStep, element);
+			WebElement element = movementMap.elementButton(elementToBeClickable);
+			if(!Constants.SCREENSHOT_BY_EXCEPTION){
+				GetScreenShoot.getEvidenceElement(nameStep, element);
+			}
 			element.click();
 		} catch (Exception e) {
-			throw new Exception("Não foi possível interagir com o elemento: " + element + "\n");
+			if(Constants.SCREENSHOT_BY_EXCEPTION){
+				GetScreenShoot.getEvidenceElement(nameStep);
+			}
+			throw new Exception("Não foi possível interagir com o elemento: " + e.getMessage() + "\n");
 		}
 
 	}
@@ -79,13 +90,18 @@ public class MovementPage extends BasePage{
 	/************ Write ************/
 	
 	public void write(String element, String text, String nameStep) throws Exception {
-		WebElement elements = movementMap.elementInput(element);
 
 		try {
+			WebElement elements = movementMap.elementInput(element);
 			elements.sendKeys(text);
-			GetScreenShoot.getEvidenceElement(nameStep, elements);
+			if(!Constants.SCREENSHOT_BY_EXCEPTION){
+				GetScreenShoot.getEvidenceElement(nameStep, elements);
+			}
 		} catch (Exception e) {
-			throw new Exception("Não foi possível interagir com o elemento: " + element + "\n");
+			if(Constants.SCREENSHOT_BY_EXCEPTION){
+				GetScreenShoot.getEvidenceElement(nameStep);
+			}
+			throw new Exception("Não foi possível interagir com o elemento: " + e.getMessage() + "\n");
 		}
 
 	}
@@ -93,13 +109,18 @@ public class MovementPage extends BasePage{
 	/************ Obtained_Texts ************/
 	
 	public String getAlertText(String classAlert, String nameStep) throws Exception {
-		WebElement element = movementMap.elementAlert(classAlert);
 		try {
-			GetScreenShoot.getEvidenceElement(nameStep, element);
+			WebElement element = movementMap.elementAlert(classAlert);
+			if(!Constants.SCREENSHOT_BY_EXCEPTION){
+				GetScreenShoot.getEvidenceElement(nameStep, element);
+			}
 			return element.getText();
 
 		} catch (Exception e) {
-			throw new Exception("Não foi possível interagir com o elemento: " + element + "\n");
+			if(Constants.SCREENSHOT_BY_EXCEPTION){
+				GetScreenShoot.getEvidenceElement(nameStep);
+			}
+			throw new Exception("Não foi possível interagir com o elemento: " + e.getMessage() + "\n");
 		}
 
 	}
@@ -107,15 +128,20 @@ public class MovementPage extends BasePage{
 	/************ Element_Radio ************/
 	
 	public void selectItemCombo(String item, String element,String nameStep) throws Exception {
-		WebElement elementWeb = movementMap.elementSelected(element);
 		try {
+			WebElement elementWeb = movementMap.elementSelected(element);
 			scrolltoElement(elementWeb);
 			Thread.sleep(1000);
 			Select combo = new Select(elementWeb);
 			combo.selectByVisibleText(item);
-			GetScreenShoot.getEvidenceElement(nameStep, elementWeb);
+			if(!Constants.SCREENSHOT_BY_EXCEPTION){
+				GetScreenShoot.getEvidenceElement(nameStep, elementWeb);
+			}
 		} catch (Exception e) {
-			throw new Exception("Não foi possível interagir com o elemento: " + elementWeb + "\n");
+			if(!Constants.SCREENSHOT_BY_EXCEPTION){
+				GetScreenShoot.getEvidenceElement(nameStep);
+			}
+			throw new Exception("Não foi possível interagir com o elemento: " + e.getMessage() + "\n");
 		}
 		
 

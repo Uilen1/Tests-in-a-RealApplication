@@ -4,6 +4,7 @@ import static model.core.Constants.EMAIL;
 import static model.core.Constants.SENHA;
 
 import io.qameta.allure.Step;
+import model.core.Constants;
 import org.openqa.selenium.WebElement;
 
 import model.core.BasePage;
@@ -37,9 +38,9 @@ public class LoginPage extends BasePage {
 	public void clickButton(String elementToBeClickable, String nameStep) throws Exception {
 		WebElement element = loginMap.elementButton(elementToBeClickable);
 		try {
-			GetScreenShoot.getEvidenceElement(nameStep, element);
 			element.click();
 		} catch (Exception e) {
+			GetScreenShoot.getEvidenceElement(nameStep, element);
 			throw new Exception("Não foi possível interagir com o elemento: " + element + "\n");
 		}
 	}
@@ -57,9 +58,14 @@ public class LoginPage extends BasePage {
 	public void click(String elementToBeClickable, String nameStep) throws Exception {
 		WebElement element = loginMap.elementInput(elementToBeClickable);
 		try {
+			if(!Constants.SCREENSHOT_BY_EXCEPTION){
+				GetScreenShoot.getEvidenceElement(nameStep, element);
+			}
 			element.click();
-			GetScreenShoot.getEvidenceElement(nameStep, element);
 		} catch (Exception e) {
+			if(Constants.SCREENSHOT_BY_EXCEPTION){
+				GetScreenShoot.getEvidenceElement(nameStep, element);
+			}
 			throw new Exception("Não foi possível interagir com o elemento: " + element + "\n");
 		}
 
@@ -72,8 +78,13 @@ public class LoginPage extends BasePage {
 
 		try {
 			elements.sendKeys(text);
-			GetScreenShoot.getEvidenceElement(nameStep, elements);
+			if(!Constants.SCREENSHOT_BY_EXCEPTION){
+				GetScreenShoot.getEvidenceElement(nameStep, elements);
+			}
 		} catch (Exception e) {
+			if(Constants.SCREENSHOT_BY_EXCEPTION){
+				GetScreenShoot.getEvidenceElement(nameStep, elements);
+			}
 			throw new Exception("Não foi possível interagir com o elemento: " + element + "\n");
 		}
 
