@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
@@ -18,6 +19,7 @@ public class ResumePage extends BasePage {
 	private MenuPage menuPage = new MenuPage();
 	private ResumeMap resumeMap = new ResumeMap();
 
+	@Step("delete a movement to account: {account}")
 	public void deleteMovementAccount() throws Exception {
 		String futureDate = utils.obtainedDateFormated(utils.obtainedDateWithDifferenceOfDays(10));
 		try {

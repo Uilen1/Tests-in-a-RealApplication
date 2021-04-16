@@ -2,6 +2,7 @@ package model.pages;
 
 import static org.junit.Assert.assertEquals;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.WebElement;
 
 import model.core.BasePage;
@@ -13,6 +14,7 @@ public class InsertAccountPage extends BasePage {
 	private MenuPage menuPage = new MenuPage();
 	private InsertAccountMap insertAccountMap = new InsertAccountMap();
 
+	@Step("Insert an account: {account}")
 	public void insertAccount(String account) throws Exception {
 		try {
 			menuPage.setAccount();
@@ -27,6 +29,7 @@ public class InsertAccountPage extends BasePage {
 
 	}
 
+	@Step("Check an account: {account}")
 	public void checkExceptions(String account) throws Exception {
 		try {
 

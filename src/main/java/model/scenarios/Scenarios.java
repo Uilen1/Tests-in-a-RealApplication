@@ -1,5 +1,6 @@
 package model.scenarios;
 
+import io.qameta.allure.Story;
 import model.core.BaseTest;
 import model.core.Constants;
 import model.core.Properties;
@@ -34,6 +35,7 @@ public class Scenarios extends BaseTest {
 	}
 	
 	@Test
+	@Story("Testando a aplicacao 'Seu Barriga' de ponta a ponta")
 	public void Test() throws Exception {
 		try {
 			insertAccount.insertAccount((String) jsonObjectData.get("vNameAccount"));

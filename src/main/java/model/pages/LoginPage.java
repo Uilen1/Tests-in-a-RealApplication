@@ -3,6 +3,7 @@ package model.pages;
 import static model.core.Constants.EMAIL;
 import static model.core.Constants.SENHA;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.WebElement;
 
 import model.core.BasePage;
@@ -16,7 +17,7 @@ public class LoginPage extends BasePage {
 	public LoginPage() {
 
 	}
-
+	@Step("Perform the login in the platform")
 	public void setLogin() throws Exception {
 		try {
 			initialScreen();

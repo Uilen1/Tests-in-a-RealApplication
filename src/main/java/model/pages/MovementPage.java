@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.Date;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 
@@ -15,9 +16,9 @@ public class MovementPage extends BasePage{
 
 	private MenuPage menuPage = new MenuPage();
 	private MovementMap movementMap = new MovementMap();
-	
 
-	
+
+	@Step("Create a movement to account: {account}")
 	public void toCreateMovement(String account) throws Exception{
 		String actualDate = utils.obtainedDateFormated(new Date());
 		String futureDate = utils.obtainedDateFormated(utils.obtainedDateWithDifferenceOfDays(10));

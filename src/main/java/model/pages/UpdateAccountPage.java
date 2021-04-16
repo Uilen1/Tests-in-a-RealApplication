@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
@@ -16,6 +17,7 @@ public class UpdateAccountPage extends BasePage {
 	private MenuPage menuPage = new MenuPage();
 	private UpdateAccountMap updateAccountMap = new UpdateAccountMap();
 
+	@Step("Update an account: {updateAccount} to {nameAccount}")
 	public void updateAccount(String updateAccount, String nameAccount) throws Exception{
 		try {
 			menuPage.listAccounts();

@@ -1,18 +1,11 @@
 package model.core;
 
-import static model.core.DriverFactory.driver;
-import static model.core.DriverFactory.killDriver;
-import static model.core.Properties.CLOSE_BROWNSER;
-
-import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-
-import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
+import io.qameta.allure.Allure;
+import model.pages.LoginPage;
+import model.utilities.Utils;
+import model.utilities.doc.CreateFileDoc;
+import model.utilities.excel.DataDictionary;
+import model.utilities.excel.GlobalData;
 import model.utilities.json.JsonData;
 import org.json.simple.JSONObject;
 import org.junit.After;
@@ -21,12 +14,19 @@ import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.rules.TestName;
 
-import model.pages.LoginPage;
-import model.utilities.Utils;
-import model.utilities.doc.CreateFileDoc;
-import model.utilities.excel.DataDictionary;
-import model.utilities.excel.GlobalData;
-import org.openqa.selenium.By;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+
+import static model.core.DriverFactory.killDriver;
+import static model.core.Properties.CLOSE_BROWNSER;
 
 public class BaseTest {
 
@@ -105,15 +105,18 @@ public class BaseTest {
 			finishTest = System.currentTimeMillis();
 			long total = finishTest - startTest;
 			String executionTime = String.format("%02d:%02d:%02d", total/3600000,(total/60000)%60,(total/1000)%60);
-			CreateFileDoc.createEvidenceInDoc(suiteName, classTestName, executionTestName, sdf.format(timeStamps), executionTime,Properties.RESULT_TEST, utils.obtainedDateWithHoursFormated(new Date()));
+			if(Constants.CREATE_REPORT_DOCX){
+				CreateFileDoc.createEvidenceInDoc(suiteName, classTestName, executionTestName, sdf.format(timeStamps), executionTime,Properties.RESULT_TEST, utils.obtainedDateWithHoursFormated(new Date()));
+			}
 			evidenceCount = 0;
+
 			System.out.println("\n"+Constants.RODAPE);
 
 			if (CLOSE_BROWNSER) {
 				killDriver();
 			}
 		} catch (Exception e) {
-			throw new Exception("Erro no método AfterTest! " + executionTestName);
+			throw new Exception("Erro no método AfterTest! " + executionTestName + "\n\n " + e.getMessage());
 		}
 		
 
