@@ -34,7 +34,7 @@
 					<systemProperties>
 						<property>
 							<name>allure.results.directory</name>
-							<value>${project.basedir}/allure-results</value>
+							<value>${project.build.directory}/allure-results</value>
 						</property>
 					</systemProperties>
 					<reportFormat>plain</reportFormat>
